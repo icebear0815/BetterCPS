@@ -16,7 +16,7 @@ namespace BetterCPS
 {
     public partial class BetterCPS : Form
     {
-        private const bool DEBUG = false;
+        private const bool DEBUG = true;
         Codeplug cp = null;
         public BetterCPS()
         {
