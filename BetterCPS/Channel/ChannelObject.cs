@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BetterCPS.Contact;
+using BetterCPS.RXGroup;
+using BetterCPS.ScanList;
+using BetterCPS.Zone;
 
 namespace BetterCPS.Channel
 {
@@ -9,6 +13,12 @@ namespace BetterCPS.Channel
     {
         byte[] rawData;
         ChannelMode mode;
+
+        internal ChannelMode Mode
+        {
+            get { return mode; }
+            set { mode = value; }
+        }
         ChannelName name;
 
         internal ChannelName Name
@@ -295,11 +305,109 @@ namespace BetterCPS.Channel
             //Slot
             repeaterSlot = RepeaterSlot.fromRaw(rawData);
         }
-        
 
 
+        public String ToString(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        {
+            
+            StringBuilder sb = new StringBuilder();
+            sb.Append(guid);
+            sb.Append(";");
+            sb.Append(mode);
+            sb.Append(";");
+            sb.Append(name);
+            sb.Append(";");
+            sb.Append(rxFreq);
+            sb.Append(";");
+            sb.Append(txFreq);
+            sb.Append(";");
+            sb.Append(bandwidth);
+            sb.Append(";");
+            //sb.Append(scanListId);
+            sb.Append(scanListId>0?allScanLists.getObjectById(scanListId).ScanListName:"None");
+            sb.Append(";");
+            sb.Append(squelch);
+            sb.Append(";");
+            sb.Append(rxRefFrequency);
+            sb.Append(";");
+            sb.Append(txRefFrequency);
+            sb.Append(";");
+            sb.Append(tot);
+            sb.Append(";");
+            sb.Append(rekeyDelay);
+            sb.Append(";");
+            sb.Append(power);
+            sb.Append(";");
+            sb.Append(admitCriteria);
+            sb.Append(";");
+            sb.Append(autoScan);
+            sb.Append(";");
+            sb.Append(rxOnly);
+            sb.Append(";");
+            sb.Append(loneWorker);
+            sb.Append(";");
+            sb.Append(vox);
+            sb.Append(";");
+            sb.Append(allowTalkAroung);
+            sb.Append(";");
+            sb.Append(encCTCSS);
+            sb.Append(";");
+            sb.Append(decCTCSS);
+            sb.Append(";");
+            sb.Append(qtReverse);
+            sb.Append(";");
+            sb.Append(rxSignalingSystem);
+            sb.Append(";");
+            sb.Append(txSignalingSystem);
+            sb.Append(";");
+            sb.Append(reverseBurst);
+            sb.Append(";");
+            sb.Append(displayPTTId);
+            sb.Append(";");
+            sb.Append(decode1);
+            sb.Append(";");
+            sb.Append(decode2);
+            sb.Append(";");
+            sb.Append(decode3);
+            sb.Append(";");
+            sb.Append(decode4);
+            sb.Append(";");
+            sb.Append(decode5);
+            sb.Append(";");
+            sb.Append(decode6);
+            sb.Append(";");
+            sb.Append(decode7);
+            sb.Append(";");
+            sb.Append(decode8);
+            sb.Append(";");
+            sb.Append(privateCallConfirmed);
+            sb.Append(";");
+            sb.Append(emergencyCallAck);
+            sb.Append(";");
+            sb.Append(dataCallConfirmed);
+            sb.Append(";");
+            sb.Append(compressedUPDHeader);
+            sb.Append(";");
+            sb.Append(emergencySystemId);
+            sb.Append(";");
+            //sb.Append(contactId);
+            sb.Append(contactId.Value>0?allContacts.getObjectById(contactId.Value).ContactName:"None");
+            sb.Append(";");
+            //sb.Append(groupListId);
+            sb.Append(groupListId>0?allRXGroups.getObjectById(groupListId).RXGroupName:"None");
+            sb.Append(";");
+            sb.Append(colorCode);
+            sb.Append(";");
+            sb.Append(privacy);
+            sb.Append(";");
+            sb.Append(privacyNo);
+            sb.Append(";");
+            sb.Append(repeaterSlot);
+
+            return sb.ToString();
+        }
         //Mode	ChannelName	RxFreq	TxFreq	BW	ScnLst	Sql	RxRef	TxRef	TOT	Rekey	Power	Admit	AScn	RxOnly	Lone	VOX	ATA	Enc	Dec	QtRev	RxSig	TxSig	RBurst	PTTID	Dec1	Dec2	Dec3	Dec4	Dec5	Dec6	Dec7	Dec8	PCC	EAA	DCC	UDP	ESyst	Contact	GrpLst	Color	Priv	PrivNo	Slot
-        public String toString()
+        public override String ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(guid);

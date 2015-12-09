@@ -10,7 +10,7 @@ namespace BetterCPS.RXGroup
     {
         public const int OFFSET = 0x0EE45;
         public const int DATA_WIDTH = 96; 
-        public const int MAX = 249;
+        public const int MAX = 250;
 
         private const int GUID = 0;
         private const int NAME = 1;
@@ -32,7 +32,7 @@ namespace BetterCPS.RXGroup
             int offset = OFFSET;
             for (int i = 0; i < MAX; i++)
             {
-                Console.WriteLine("RXGroups: "+i);
+                //Console.WriteLine("RXGroups: "+i);
                 String hex;
                 byte[] oneRXGroupRaw = new byte[DATA_WIDTH];
                 for (int j = 0; j < DATA_WIDTH; j++)
@@ -70,12 +70,12 @@ namespace BetterCPS.RXGroup
             allRXGroups.Rows.Add(oneRXGroup.GUID, oneRXGroup.RXGroupName, oneRXGroup);
         }
 
-        public RXGroupObject getChannelById(int id)
+        public RXGroupObject getObjectById(int id)
         {
             return (RXGroupObject)allRXGroups.Rows[id].ItemArray[RXGroup];
         }
 
-        public RXGroupObject getChannelByGUID(String guid)
+        public RXGroupObject getObjectByGUID(String guid)
         {
             DataRow[] result = allRXGroups.Select("GUID = '" + guid + "'");
             if (result != null)
@@ -85,7 +85,7 @@ namespace BetterCPS.RXGroup
         
         public String getNameById(int id)
         {
-            return (String)allRXGroups.Rows[id].ItemArray[NAME];
+            return (String)allRXGroups.Rows[id-1].ItemArray[NAME];
         }
 
         public String getGUIDById(int id)

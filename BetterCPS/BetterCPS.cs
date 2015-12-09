@@ -16,7 +16,7 @@ namespace BetterCPS
 {
     public partial class BetterCPS : Form
     {
-        private const bool DEBUG = true;
+        private  bool DEBUG = false;
         Codeplug cp = null;
         public BetterCPS()
         {
@@ -46,32 +46,17 @@ namespace BetterCPS
                 RXGroups allRXGroups = new RXGroups();
                 allRXGroups.RXGroupsFromRawData(data, DEBUG);
 
+                ScanLists allScanLists = new ScanLists();
+                allScanLists.ScanListsFromRawData(data, DEBUG);
+
+                Zones allZones = new Zones();
+                allZones.ZonesFromRawData(data, DEBUG);
+
                 Channels allChannels = new Channels();
                 allChannels.ChannelsFromRawData(data, DEBUG);
 
-                
-
-                // S C A N - L I S T
-                Console.WriteLine("S C A N - L I S T");
-                offset = ScanListObject.offset;
-                dataWidth = ScanListObject.Length;
-                for (int i = 0; i < 1; i++)
-                {
-                    String hex;
-                    byte[] oneChannel = new byte[dataWidth];
-                    for (int j = 0; j < dataWidth; j++)
-                    {
-                        byte value = data[offset + j];
-                        oneChannel[j] = value;
-                        hex = string.Format("{0:X2}", value);
-                        Console.Write(hex + " ");
-                    }
-                    Console.WriteLine();
-                    offset += dataWidth;
-                    ScanListObject ce = new ScanListObject();
-                    ce.RawData = oneChannel;
-                    Console.WriteLine(ce.toString());
-                }
+                String channelCSV = allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones);
+                Console.WriteLine(channelCSV);
             }
             
         }
@@ -84,6 +69,11 @@ namespace BetterCPS
                 
                 Console.WriteLine("Read "+data.Length+" bytes. OK.");
             }*/
+        }
+
+        private void checkStateChanged(object sender, EventArgs e)
+        {
+            DEBUG = ((MenuItem)sender).Checked;
         }
     }
 }

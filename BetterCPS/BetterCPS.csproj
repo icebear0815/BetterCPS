@@ -80,6 +80,7 @@
     <Compile Include="ScanList\PriorityChannel.cs" />
     <Compile Include="ScanList\Name.cs" />
     <Compile Include="ScanList\PrioritySampleTime.cs" />
+    <Compile Include="ScanList\ScanLists.cs" />
     <Compile Include="ScanList\ScanListObject.cs" />
     <Compile Include="RXGroup\ContactId.cs" />
     <Compile Include="RXGroup\Name.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="ScanList\TXDesignatedChannelId.cs" />
     <Compile Include="Zone\ChannelId.cs" />
     <Compile Include="Zone\Name.cs" />
+    <Compile Include="Zone\Zones.cs" />
     <Compile Include="Zone\ZoneObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

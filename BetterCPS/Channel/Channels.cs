@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BetterCPS.Contact;
+using BetterCPS.RXGroup;
+using BetterCPS.ScanList;
+using BetterCPS.Zone;
 
 namespace BetterCPS.Channel
 {
@@ -51,7 +55,7 @@ namespace BetterCPS.Channel
                 AddChannel(ch);
                 if (debug)
                 {
-                    Console.WriteLine(ch.toString());
+                    Console.WriteLine(ch.ToString());
                     oneChannelRaw = ch.RawData;
                     for (int j = 0; j < DATA_WIDTH; j++)
                     {
@@ -69,12 +73,12 @@ namespace BetterCPS.Channel
             allChannels.Rows.Add(oneChannel.GUID, oneChannel.Name, oneChannel);
         }
 
-        public ChannelObject getChannelById(int id)
+        public ChannelObject getObjectById(int id)
         {
-            return (ChannelObject)allChannels.Rows[id].ItemArray[CHANNEL];
+            return (ChannelObject)allChannels.Rows[id-1].ItemArray[CHANNEL];
         }
 
-        public ChannelObject getChannelByGUID(String guid)
+        public ChannelObject getObjectByGUID(String guid)
         {
             DataRow[] result = allChannels.Select("GUID = '" + guid + "'");
             if (result != null)
@@ -100,5 +104,17 @@ namespace BetterCPS.Channel
             return -1;
         }
 
+        public String toCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < allChannels.Rows.Count; i++)
+            {
+                ChannelObject oneChannel = (ChannelObject)allChannels.Rows[i].ItemArray[CHANNEL];
+                if (oneChannel.Mode.Mode == ChannelMode.ANALOG || oneChannel.Mode.Mode == ChannelMode.DIGITAL)
+                    sb.AppendLine(oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones));
+
+            }
+            return sb.ToString() ;
+        }
     }
 }

@@ -38,6 +38,12 @@ namespace BetterCPS.ScanList
         TXDesignatedChannelId txDesignatedChannelId;
         private String guid;
 
+        internal String ScanListName
+        {
+            get { return name.Value; }
+            set { name.Value = value; }
+        }
+
         public ScanListObject()
         {
             guid = System.Guid.NewGuid().ToString();

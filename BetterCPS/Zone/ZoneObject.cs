@@ -33,6 +33,13 @@ namespace BetterCPS.Zone
             guid = System.Guid.NewGuid().ToString();
         }
 
+
+        internal String ZoneName
+        {
+            get { return name.Value; }
+            set { name.Value = value; }
+        }
+
         public String GUID
         {
             get { return guid; }

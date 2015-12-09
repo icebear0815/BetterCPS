@@ -32,7 +32,7 @@ namespace BetterCPS.Contact
             int offset = OFFSET;
             for (int i = 0; i < MAX; i++)
             {
-                Console.WriteLine("Contacts: " + i);
+                //Console.WriteLine("Contacts: " + i);
                 String hex;
                 byte[] oneContactRaw = new byte[DATA_WIDTH];
                 for (int j = 0; j < DATA_WIDTH; j++)
@@ -70,12 +70,12 @@ namespace BetterCPS.Contact
             allContacts.Rows.Add(oneContact.GUID, oneContact.ContactName, oneContact);
         }
 
-        public ContactEntry getChannelById(int id)
+        public ContactEntry getObjectById(int id)
         {
-            return (ContactEntry)allContacts.Rows[id].ItemArray[CONTACT];
+            return (ContactEntry)allContacts.Rows[id-1].ItemArray[CONTACT];
         }
 
-        public ContactEntry getChannelByGUID(String guid)
+        public ContactEntry getObjectByGUID(String guid)
         {
             DataRow[] result = allContacts.Select("GUID = '" + guid + "'");
             if (result != null)
