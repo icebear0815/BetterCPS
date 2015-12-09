@@ -107,6 +107,7 @@ namespace BetterCPS.Channel
         public String toCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("GUID;Mode;ChannelName;RxFreq;TxFreq;BW;ScnLst;Sql;RxRef;TxRef;TOT;Rekey;Power;Admit;AScn;RxOnly;Lone;VOX;ATA;Enc;Dec;QtRev;RxSig;TxSig;RBurst;PTTID;Dec1;Dec2;Dec3;Dec4;Dec5;Dec6;Dec7;Dec8;PCC;EAA;DCC;UDP;ESyst;Contact;GrpLst;Color;Priv;PrivNo;Slot");
             for (int i = 0; i < allChannels.Rows.Count; i++)
             {
                 ChannelObject oneChannel = (ChannelObject)allChannels.Rows[i].ItemArray[CHANNEL];

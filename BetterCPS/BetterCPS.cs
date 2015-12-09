@@ -18,6 +18,12 @@ namespace BetterCPS
     {
         private  bool DEBUG = false;
         Codeplug cp = null;
+        Contacts allContacts;
+        RXGroups allRXGroups;
+        ScanLists allScanLists;
+        Zones allZones;
+        Channels allChannels;
+
         public BetterCPS()
         {
             InitializeComponent();
@@ -40,23 +46,23 @@ namespace BetterCPS
                 int offset = 0x1f025;
                 int dataWidth = 64;
                 
-                Contacts allContacts = new Contacts();
+                allContacts = new Contacts();
                 allContacts.ContactsFromRawData(data, DEBUG);
 
-                RXGroups allRXGroups = new RXGroups();
+                allRXGroups = new RXGroups();
                 allRXGroups.RXGroupsFromRawData(data, DEBUG);
 
-                ScanLists allScanLists = new ScanLists();
+                allScanLists = new ScanLists();
                 allScanLists.ScanListsFromRawData(data, DEBUG);
 
-                Zones allZones = new Zones();
+                allZones = new Zones();
                 allZones.ZonesFromRawData(data, DEBUG);
 
-                Channels allChannels = new Channels();
+                allChannels = new Channels();
                 allChannels.ChannelsFromRawData(data, DEBUG);
 
-                String channelCSV = allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones);
-                Console.WriteLine(channelCSV);
+                //String channelCSV = allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones);
+                //Console.WriteLine(channelCSV);
             }
             
         }
@@ -73,7 +79,27 @@ namespace BetterCPS
 
         private void checkStateChanged(object sender, EventArgs e)
         {
-            DEBUG = ((MenuItem)sender).Checked;
+            DEBUG = ((ToolStripMenuItem)sender).Checked;
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (allChannels != null)
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.File.WriteAllText(saveFileDialog1.FileName, allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones));
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+            }
         }
     }
 }
