@@ -70,9 +70,18 @@ namespace BetterCPS.RXGroup
             allRXGroups.Rows.Add(oneRXGroup.GUID, oneRXGroup.RXGroupName, oneRXGroup);
         }
 
+        private int IdConvInput(int id)
+        {
+            return id - 1;
+        }
+        private int IdConvOutput(int id)
+        {
+            return id + 1;
+        }
+
         public RXGroupObject getObjectById(int id)
         {
-            return (RXGroupObject)allRXGroups.Rows[id].ItemArray[RXGroup];
+            return (RXGroupObject)allRXGroups.Rows[IdConvInput(id)].ItemArray[RXGroup];
         }
 
         public RXGroupObject getObjectByGUID(String guid)
@@ -85,19 +94,27 @@ namespace BetterCPS.RXGroup
         
         public String getNameById(int id)
         {
-            return (String)allRXGroups.Rows[id-1].ItemArray[NAME];
+            return (String)allRXGroups.Rows[IdConvInput(id)].ItemArray[NAME];
         }
 
         public String getGUIDById(int id)
         {
-            return (String)allRXGroups.Rows[id].ItemArray[GUID];
+            return (String)allRXGroups.Rows[IdConvInput(id)].ItemArray[GUID];
         }
 
         public int getIdByGUID(String guid)
         {
             DataRow[] result = allRXGroups.Select("GUID = '" + guid + "'");
             if (result != null)
-                return allRXGroups.Rows.IndexOf(result[0]);
+                return IdConvOutput(allRXGroups.Rows.IndexOf(result[0]));
+            return -1;
+        }
+
+        public int getIdByName(String name)
+        {
+            DataRow[] result = allRXGroups.Select("Name = '" + name + "'");
+            if (result != null)
+                return IdConvOutput(allRXGroups.Rows.IndexOf(result[0]));
             return -1;
         }
 

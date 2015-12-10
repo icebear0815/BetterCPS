@@ -47,6 +47,7 @@ namespace BetterCPS.ScanList
         public ScanListObject()
         {
             guid = System.Guid.NewGuid().ToString();
+            initializeRawData();
         }
 
         public String GUID

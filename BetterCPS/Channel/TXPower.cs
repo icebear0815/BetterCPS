@@ -18,12 +18,21 @@ namespace BetterCPS.Channel
         }
         
         
-        public static TXPower fromRaw(byte[] rawData)
+        public static TXPower FromRaw(byte[] rawData)
         {
             TXPower tx = new TXPower();
             byte oneByte = rawData[tx.offset];
             tx.Value = oneByte & tx.mask; //00100000 as bit 5 is used for power
             return tx;
+        }
+
+        public void FromString(String objStr)
+        {
+            if ("Low".Equals(objStr))
+                value = LOW;
+            else if ("High".Equals(objStr))
+                value = HIGH;
+            else throw new ArgumentException("Value " + objStr + " can not be converted to TXPower (\"Low\"/\"High\").");
         }
         
         public override string ToString()

@@ -7,7 +7,7 @@ namespace BetterCPS.Channel
 {
     class QTReverse : ChannelParameter
     {
-        public const int _120 = 0x01;
+        public const int _120 = 0x08;
         public const int _180 = 0x00;
         
 
@@ -23,6 +23,16 @@ namespace BetterCPS.Channel
             byte oneByte = rawData[qt.offset];
             qt.Value = oneByte & qt.mask; 
             return qt;
+        }
+
+        public void FromString(String objStr)
+        {
+            if ("120".Equals(objStr))
+                value = _120;
+            else if ("180".Equals(objStr))
+                value = _180;
+            else
+                throw new ArgumentException("Value: " + objStr + " can not be converted to QTReverse. Was Expecting \"120\",\"180\".");
         }
         
         public override string ToString()

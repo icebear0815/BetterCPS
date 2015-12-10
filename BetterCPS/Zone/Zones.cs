@@ -73,7 +73,14 @@ namespace BetterCPS.Zone
         {
             return (ZoneObject)allZones.Rows[id-1].ItemArray[Zone];
         }
-
+        private int IdConvInput(int id)
+        {
+            return id - 1;
+        }
+        private int IdConvOutput(int id)
+        {
+            return id + 1;
+        }
         public ZoneObject getObjectByGUID(String guid)
         {
             DataRow[] result = allZones.Select("GUID = '" + guid + "'");
@@ -84,19 +91,19 @@ namespace BetterCPS.Zone
         
         public String getNameById(int id)
         {
-            return (String)allZones.Rows[id].ItemArray[NAME];
+            return (String)allZones.Rows[IdConvInput(id)].ItemArray[NAME];
         }
 
         public String getGUIDById(int id)
         {
-            return (String)allZones.Rows[id].ItemArray[GUID];
+            return (String)allZones.Rows[IdConvInput(IdConvInput(id))].ItemArray[GUID];
         }
 
         public int getIdByGUID(String guid)
         {
             DataRow[] result = allZones.Select("GUID = '" + guid + "'");
             if (result != null)
-                return allZones.Rows.IndexOf(result[0]);
+                return IdConvOutput(allZones.Rows.IndexOf(result[0]));
             return -1;
         }
 

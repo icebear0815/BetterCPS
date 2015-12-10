@@ -14,7 +14,7 @@ namespace BetterCPS.Channel
     {
         public const int OFFSET = 0x1f025;
         public const int DATA_WIDTH = 64; 
-        public const int MAX = 999;
+        public const int MAX = 1000;
 
         private const int GUID = 0;
         private const int NAME = 1;
@@ -24,15 +24,32 @@ namespace BetterCPS.Channel
 
         public Channels()
         {
+            initDataTable();
+        }
+        private void initDataTable()
+        {
             allChannels = new DataTable();
             allChannels.Columns.Add("GUID", typeof(String));
             allChannels.Columns.Add("Name", typeof(String));
             allChannels.Columns.Add("DATA", typeof(ChannelObject));
-        
+        }
+
+        public byte[] RawDataFromChannels()
+        {
+            byte[] rawData = new byte[DATA_WIDTH * MAX];
+            int tmpOffset = 0;
+            for (int i = 0; i < allChannels.Rows.Count; i++)
+            {
+                ChannelObject oneChannel = (ChannelObject)allChannels.Rows[i].ItemArray[CHANNEL];
+                Array.Copy(oneChannel.RawData, 0, rawData, tmpOffset, DATA_WIDTH);
+                tmpOffset += DATA_WIDTH;
+            }
+            return rawData;
         }
 
         public void ChannelsFromRawData(byte[] rawData, bool debug)
         {
+            initDataTable();
             int offset = OFFSET;
             for (int i = 0; i < MAX; i++)
             {
@@ -67,7 +84,15 @@ namespace BetterCPS.Channel
                 }
             }
         }
-
+        private int IdConvInput(int id)
+        {
+            return id - 1;
+        }
+        private int IdConvOutput(int id)
+        {
+            return id + 1;
+        }
+           
         public void AddChannel(ChannelObject oneChannel)
         {
             allChannels.Rows.Add(oneChannel.GUID, oneChannel.Name, oneChannel);
@@ -75,7 +100,7 @@ namespace BetterCPS.Channel
 
         public ChannelObject getObjectById(int id)
         {
-            return (ChannelObject)allChannels.Rows[id-1].ItemArray[CHANNEL];
+            return (ChannelObject)allChannels.Rows[IdConvInput(id)].ItemArray[CHANNEL];
         }
 
         public ChannelObject getObjectByGUID(String guid)
@@ -88,34 +113,48 @@ namespace BetterCPS.Channel
         
         public String getNameById(int id)
         {
-            return (String)allChannels.Rows[id].ItemArray[NAME];
+            return (String)allChannels.Rows[IdConvInput(id)].ItemArray[NAME];
         }
 
         public String getGUIDById(int id)
         {
-            return (String)allChannels.Rows[id].ItemArray[GUID];
+            return (String)allChannels.Rows[IdConvInput(id)].ItemArray[GUID];
         }
 
         public int getIdByGUID(String guid)
         {
             DataRow[] result = allChannels.Select("GUID = '" + guid + "'");
             if (result != null)
-                return allChannels.Rows.IndexOf(result[0]);
+                return IdConvOutput(allChannels.Rows.IndexOf(result[0]));
             return -1;
         }
 
-        public String toCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        public String[] ToCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("GUID;Mode;ChannelName;RxFreq;TxFreq;BW;ScnLst;Sql;RxRef;TxRef;TOT;Rekey;Power;Admit;AScn;RxOnly;Lone;VOX;ATA;Enc;Dec;QtRev;RxSig;TxSig;RBurst;PTTID;Dec1;Dec2;Dec3;Dec4;Dec5;Dec6;Dec7;Dec8;PCC;EAA;DCC;UDP;ESyst;Contact;GrpLst;Color;Priv;PrivNo;Slot");
+            int size = allChannels.Rows.Count + 1; //count + header line
+            String[] allLines = new String[size];
+            allLines [0] = "GUID;Mode;ChannelName;RxFreq;TxFreq;BW;ScnLst;Sql;RxRef;TxRef;TOT;Rekey;Power;Admit;AScn;RxOnly;Lone;VOX;ATA;Enc;Dec;QtRev;RxSig;TxSig;RBurst;PTTID;Dec1;Dec2;Dec3;Dec4;Dec5;Dec6;Dec7;Dec8;PCC;EAA;DCC;UDP;ESyst;Contact;GrpLst;Color;Priv;PrivNo;Slot";
             for (int i = 0; i < allChannels.Rows.Count; i++)
             {
                 ChannelObject oneChannel = (ChannelObject)allChannels.Rows[i].ItemArray[CHANNEL];
                 if (oneChannel.Mode.Mode == ChannelMode.ANALOG || oneChannel.Mode.Mode == ChannelMode.DIGITAL)
-                    sb.AppendLine(oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones));
+                    allLines[i+1] = oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones);
 
             }
-            return sb.ToString() ;
+            return allLines;
+        }
+
+        public void FromCSV(String[] csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        {
+            initDataTable();
+            for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
+            {
+                ChannelObject oneChannel = new ChannelObject();
+                oneChannel.SetDataFromCSV(csvData[i], allContacts, allRXGroups, allScanLists, allZones);
+                Console.WriteLine("In:  " + csvData[i]);
+                Console.WriteLine("Out: " + oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones));
+                AddChannel(oneChannel);
+            }
         }
     }
 }

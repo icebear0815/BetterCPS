@@ -50,6 +50,16 @@ namespace BetterCPS.Channel
             }
         }
 
+        public void FromString(String freqStr)
+        {
+            if ("Off".Equals(freqStr))
+                freq = 0xffff;
+            if ("None".Equals(freqStr))
+                freq = 0xffff;
+            else
+                freq = Int32.Parse(freqStr);
+        }
+
         public override String ToString()
         {
             return "" + freq;

@@ -34,7 +34,7 @@ namespace BetterCPS.Channel
             return rawData;
         }
 
-        public void fromString(String value)
+        public void FromString(String value)
         {
             int val = Int32.Parse(value);
             if ((val % 15 == 0) && val <= 555)

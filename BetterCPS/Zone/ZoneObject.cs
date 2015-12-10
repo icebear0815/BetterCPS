@@ -31,6 +31,7 @@ namespace BetterCPS.Zone
         public ZoneObject()
         {
             guid = System.Guid.NewGuid().ToString();
+            initializeRawData();
         }
 
 

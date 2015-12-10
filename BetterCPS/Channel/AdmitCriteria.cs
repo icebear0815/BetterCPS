@@ -24,7 +24,18 @@ namespace BetterCPS.Channel
             ac.Value = oneByte & ac.mask; //00000011 as bit 3 is used for bandwidth
             return ac;
         }
-        
+
+        public void FromString(String objStr)
+        {
+            if ("Always".Equals(objStr))
+                value = ALWAYS;
+            else if ("Channel Free".Equals(objStr))
+                value = CHANNEL_FREE;
+            else if ("Color Code".Equals(objStr))
+                value = COLOR_CODE;
+            else
+                throw new ArgumentException("Value " + objStr + " can not be converted to Color-Code (\"Always\"/\"Channel Free\"/\"Color Code\").");
+        }
         public override string ToString()
         {
             if (ALWAYS == value)

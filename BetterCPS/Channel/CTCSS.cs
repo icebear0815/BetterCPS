@@ -50,10 +50,18 @@ namespace BetterCPS.Channel
             Array.Copy(bcdBytes, 0, rawData, offset, 2);
             return rawData;
         }
-
+        public void FromString(String objStr)
+        {
+            if ("None".Equals(objStr))
+                Freq = -1;
+            base.FromString(objStr);
+        }
         public override String ToString()
         {
-            return base.ToString();
+            if (value == -1)
+                return "None";
+            else
+                return base.ToString();
         }
     }
 }

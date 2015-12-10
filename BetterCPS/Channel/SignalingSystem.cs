@@ -34,6 +34,23 @@ namespace BetterCPS.Channel
             rawData[offset] = oneByte;
             return rawData;
         }
+
+        public void FromString(String objStr)
+        {
+            if ("Off".Equals(objStr))
+                value = OFF;
+            else if ("DTFM1".Equals(objStr))
+                value = DTMF1;
+            else if ("DTFM2".Equals(objStr))
+                value = DTMF2;
+            else if ("DTFM3".Equals(objStr))
+                value = DTMF3;
+            else if ("DTFM4".Equals(objStr))
+                value = DTMF4;
+            else
+                throw new ArgumentException("Value : " + objStr + " can not be converted to SignalingSystem. Was expecting: \"Off\", \"DTMF1\", \"DTMF2\", \"DTMF3\", \"DTMF4\".");
+        }
+
         public override string ToString()
         {
             if (OFF == value)

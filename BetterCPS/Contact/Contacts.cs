@@ -69,10 +69,17 @@ namespace BetterCPS.Contact
         {
             allContacts.Rows.Add(oneContact.GUID, oneContact.ContactName, oneContact);
         }
-
+        private int IdConvInput(int id)
+        {
+            return id - 1;
+        }
+        private int IdConvOutput(int id)
+        {
+            return id + 1;
+        }
         public ContactEntry getObjectById(int id)
         {
-            return (ContactEntry)allContacts.Rows[id-1].ItemArray[CONTACT];
+            return (ContactEntry)allContacts.Rows[IdConvInput(id)].ItemArray[CONTACT];
         }
 
         public ContactEntry getObjectByGUID(String guid)
@@ -85,21 +92,28 @@ namespace BetterCPS.Contact
         
         public String getNameById(int id)
         {
-            return (String)allContacts.Rows[id].ItemArray[NAME];
+            return (String)allContacts.Rows[IdConvInput(id)].ItemArray[NAME];
         }
 
         public String getGUIDById(int id)
         {
-            return (String)allContacts.Rows[id].ItemArray[GUID];
+            return (String)allContacts.Rows[IdConvInput(id)].ItemArray[GUID];
         }
 
         public int getIdByGUID(String guid)
         {
             DataRow[] result = allContacts.Select("GUID = '" + guid + "'");
             if (result != null)
-                return allContacts.Rows.IndexOf(result[0]);
+                return IdConvOutput(allContacts.Rows.IndexOf(result[0]));
             return -1;
         }
 
+        public int getIdByName(String name)
+        {
+            DataRow[] result = allContacts.Select("Name = '" + name + "'");
+            if (result != null)
+                return IdConvOutput(allContacts.Rows.IndexOf(result[0]));
+            return -1;
+        }
     }
 }

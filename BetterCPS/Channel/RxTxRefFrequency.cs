@@ -31,7 +31,17 @@ namespace BetterCPS.Channel
             rtr.Value = oneByte & rtr.mask; //00000011 as bit 3 is used for bandwidth
             return rtr;
         }
-        
+        public void FromString(String objStr)
+        {
+            if ("Low".Equals(objStr))
+                value = LOW;
+            else if ("Medium".Equals(objStr))
+                value = MEDIUM;
+            else if ("High".Equals(objStr))
+                value = HIGH;
+            else throw new ArgumentException("Value " + objStr + " can not be converted to RefFrequency (\"Low\"/\"Medium\"/\"High\").");
+        }
+
         public override string ToString()
         {
             if (LOW == value)

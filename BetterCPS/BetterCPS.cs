@@ -43,24 +43,7 @@ namespace BetterCPS
                 cp.RawData = data;
                 Console.WriteLine("Read " + data.Length + " bytes. OK.");
 
-                int offset = 0x1f025;
-                int dataWidth = 64;
-                
-                allContacts = new Contacts();
-                allContacts.ContactsFromRawData(data, DEBUG);
-
-                allRXGroups = new RXGroups();
-                allRXGroups.RXGroupsFromRawData(data, DEBUG);
-
-                allScanLists = new ScanLists();
-                allScanLists.ScanListsFromRawData(data, DEBUG);
-
-                allZones = new Zones();
-                allZones.ZonesFromRawData(data, DEBUG);
-
-                allChannels = new Channels();
-                allChannels.ChannelsFromRawData(data, DEBUG);
-
+              
                 //String channelCSV = allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones);
                 //Console.WriteLine(channelCSV);
             }
@@ -80,6 +63,7 @@ namespace BetterCPS
         private void checkStateChanged(object sender, EventArgs e)
         {
             DEBUG = ((ToolStripMenuItem)sender).Checked;
+            cp.Debug = DEBUG;
         }
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -93,12 +77,30 @@ namespace BetterCPS
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllText(saveFileDialog1.FileName, allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones));
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, allChannels.ToCSV(allContacts, allRXGroups, allScanLists, allZones), Encoding.UTF8);
                 }
             }
             else
             {
                 MessageBox.Show(this, "Kein Codeplug geöffnet!");
+            }
+        }
+
+        private void saveCodeplugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Noch nicht implementiert!") == DialogResult.OK)
+            {
+                if (saveFileDialog2.ShowDialog() == DialogResult.OK)
+                    System.IO.File.WriteAllBytes(saveFileDialog2.FileName, cp.RawData);
+            }
+        }
+
+        private void channelsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
+                allChannels.FromCSV(csvData, allContacts, allRXGroups, allScanLists, allZones);
             }
         }
     }

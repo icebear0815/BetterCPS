@@ -25,7 +25,7 @@ namespace BetterCPS.Channel
             return pri;
         }
 
-        public void fromString(String valStr)
+        public void FromString(String valStr)
         {
             if ("None".Equals(valStr))
                 value = NONE;

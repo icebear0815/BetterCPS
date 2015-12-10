@@ -23,8 +23,16 @@ namespace BetterCPS.Channel
             sq.Value = oneByte & sq.mask; //00100000 as bit 5 is used for squelch
             return sq;
         }
-        
 
+        public void FromString(String objStr)
+        {
+            if ("Normal".Equals(objStr))
+                value = NORMAL;
+            else if ("Tight".Equals(objStr))
+                value = TIGHT;
+            else
+                throw new ArgumentException("Value " + objStr + " can not be converted to a squelch setting (\"Normal\"/\"Tight\").");
+        }
         public override string ToString()
         {
             if (NORMAL == value)

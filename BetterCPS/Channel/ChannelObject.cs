@@ -11,6 +11,55 @@ namespace BetterCPS.Channel
 {
     class ChannelObject
     {
+        /*
+         * Define CONST
+         */
+        public const int _GUID = 0;
+        public const int _MODE = 1;
+        public const int _NAME = 2;
+        public const int _RXFREQ = 3;
+        public const int _TXFREQ = 4;
+        public const int _BANDWIDTH = 5;
+        public const int _SCANLISTID = 6;
+        public const int _SQUELCH = 7;
+        public const int _RXREFFREQUENCY = 8;
+        public const int _TXREFFREQUENCY = 9;
+        public const int _TOT = 10;
+        public const int _REKEYDELAY = 11;
+        public const int _POWER = 12;
+        public const int _ADMITCRITERIA = 13;
+        public const int _AUTOSCAN = 14;
+        public const int _RXONLY = 15;
+        public const int _LONEWORKER = 16;
+        public const int _VOX = 17;
+        public const int _ALLOWTALKAROUNG = 18;
+        public const int _ENCCTCSS = 19;
+        public const int _DECCTCSS = 20;
+        public const int _QTREVERSE = 21;
+        public const int _RXSIGNALINGSYSTEM = 22;
+        public const int _TXSIGNALINGSYSTEM = 23;
+        public const int _REVERSEBURST = 24;
+        public const int _DISPLAYPTTID = 25;
+        public const int _DECODE1 = 26;
+        public const int _DECODE2 = 27;
+        public const int _DECODE3 = 28;
+        public const int _DECODE4 = 29;
+        public const int _DECODE5 = 30;
+        public const int _DECODE6 = 31;
+        public const int _DECODE7 = 32;
+        public const int _DECODE8 = 33;
+        public const int _PRIVATECALLCONFIRMED = 34;
+        public const int _EMERGENCYCALLACK = 35;
+        public const int _DATACALLCONFIRMED = 36;
+        public const int _COMPRESSEDUPDHEADER = 37;
+        public const int _EMERGENCYSYSTEMID = 38;
+        public const int _CONTACTID = 39;
+        public const int _GROUPLISTID = 40;
+        public const int _COLORCODE = 41;
+        public const int _PRIVACY = 42;
+        public const int _PRIVACYNO = 43;
+        public const int _REPEATERSLOT = 44;
+
         byte[] rawData;
         ChannelMode mode;
 
@@ -73,6 +122,8 @@ namespace BetterCPS.Channel
         public ChannelObject()
         {
             guid = System.Guid.NewGuid().ToString();
+            initializeRawData();
+            setDataFromRawData();
         }
 
         public String GUID
@@ -239,7 +290,7 @@ namespace BetterCPS.Channel
             //Rekey
             rekeyDelay = rawData[9];
             //Power
-            power = TXPower.fromRaw(rawData);
+            power = TXPower.FromRaw(rawData);
             //Admit
             admitCriteria = AdmitCriteria.fromRaw(rawData);
             //AScn
@@ -306,7 +357,55 @@ namespace BetterCPS.Channel
             repeaterSlot = RepeaterSlot.fromRaw(rawData);
         }
 
-
+        public void SetDataFromCSV(String csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        {
+            String[] allFields = csvData.Split(';');
+            guid = allFields[_GUID];
+            mode.fromString(allFields[_MODE]);
+            name.Name = allFields[_NAME];
+            rxFreq.FromString(allFields[_RXFREQ]);
+            txFreq.FromString(allFields[_TXFREQ]);
+            bandwidth.FromString(allFields[_BANDWIDTH]);
+            scanListId = allScanLists.getIdByName(allFields[_SCANLISTID]);
+            squelch.FromString(allFields[_SQUELCH]);
+            rxRefFrequency.FromString(allFields[_RXREFFREQUENCY]);
+            txRefFrequency.FromString(allFields[_TXREFFREQUENCY]);
+            tot.FromString(allFields[_TOT]);
+            rekeyDelay = Int32.Parse(allFields[_REKEYDELAY]);
+            power.FromString(allFields[_POWER]);
+            admitCriteria.FromString(allFields[_ADMITCRITERIA]);
+            autoScan.FromString(allFields[_AUTOSCAN]);
+            rxOnly.FromString(allFields[_RXONLY]);
+            loneWorker.FromString(allFields[_LONEWORKER]);
+            vox.FromString(allFields[_VOX]);
+            allowTalkAroung.FromString(allFields[_ALLOWTALKAROUNG]);
+            encCTCSS.FromString(allFields[_ENCCTCSS]);
+            decCTCSS.FromString(allFields[_DECCTCSS]);
+            qtReverse.FromString(allFields[_QTREVERSE]);
+            rxSignalingSystem.FromString(allFields[_RXSIGNALINGSYSTEM]);
+            txSignalingSystem.FromString(allFields[_TXSIGNALINGSYSTEM]);
+            reverseBurst.FromString(allFields[_REVERSEBURST]);
+            displayPTTId.FromString(allFields[_DISPLAYPTTID]);
+            decode1.FromString(allFields[_DECODE1]);
+            decode2.FromString(allFields[_DECODE2]);
+            decode3.FromString(allFields[_DECODE3]);
+            decode4.FromString(allFields[_DECODE4]);
+            decode5.FromString(allFields[_DECODE5]);
+            decode6.FromString(allFields[_DECODE6]);
+            decode7.FromString(allFields[_DECODE7]);
+            decode8.FromString(allFields[_DECODE8]);
+            privateCallConfirmed.FromString(allFields[_PRIVATECALLCONFIRMED]);
+            emergencyCallAck.FromString(allFields[_EMERGENCYCALLACK]);
+            dataCallConfirmed.FromString(allFields[_DATACALLCONFIRMED]);
+            compressedUPDHeader.FromString(allFields[_COMPRESSEDUPDHEADER]);
+            emergencySystemId = "None".Equals(allFields[_EMERGENCYSYSTEMID])?0:Int32.Parse(allFields[_EMERGENCYSYSTEMID]);
+            contactId.Value = allContacts.getIdByName(allFields[_CONTACTID]);
+            groupListId = allRXGroups.getIdByName(allFields[_GROUPLISTID]);
+            colorCode.FromString(allFields[_COLORCODE]);
+            privacy.FromString(allFields[_PRIVACY]);
+            privacyNo.FromString(allFields[_PRIVACYNO]);
+            repeaterSlot.FromString(allFields[_REPEATERSLOT]);
+        }
         public String ToString(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
         {
             
@@ -388,7 +487,7 @@ namespace BetterCPS.Channel
             sb.Append(";");
             sb.Append(compressedUPDHeader);
             sb.Append(";");
-            sb.Append(emergencySystemId);
+            sb.Append(emergencySystemId>0?"Unknwon":"None");
             sb.Append(";");
             //sb.Append(contactId);
             sb.Append(contactId.Value>0?allContacts.getObjectById(contactId.Value).ContactName:"None");

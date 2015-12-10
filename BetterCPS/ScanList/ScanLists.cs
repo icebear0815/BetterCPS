@@ -72,7 +72,7 @@ namespace BetterCPS.ScanList
 
         public ScanListObject getObjectById(int id)
         {
-            return (ScanListObject)allScanLists.Rows[id-1].ItemArray[ScanList];
+            return (ScanListObject)allScanLists.Rows[IdConvInput(id)].ItemArray[ScanList];
         }
 
         public ScanListObject getObjectByGUID(String guid)
@@ -82,22 +82,39 @@ namespace BetterCPS.ScanList
                 return (ScanListObject) result[0].ItemArray[ScanList];
             return null;
         }
-        
+
+        private int IdConvInput(int id)
+        {
+            return id - 1;
+        }
+        private int IdConvOutput(int id)
+        {
+            return id + 1;
+        }
         public String getNameById(int id)
         {
-            return (String)allScanLists.Rows[id].ItemArray[NAME];
+            return (String)allScanLists.Rows[IdConvInput(id)].ItemArray[NAME];
         }
 
         public String getGUIDById(int id)
         {
-            return (String)allScanLists.Rows[id].ItemArray[GUID];
+            return (String)allScanLists.Rows[IdConvInput(id)].ItemArray[GUID];
         }
 
         public int getIdByGUID(String guid)
         {
             DataRow[] result = allScanLists.Select("GUID = '" + guid + "'");
             if (result != null)
-                return allScanLists.Rows.IndexOf(result[0]);
+                return IdConvOutput(allScanLists.Rows.IndexOf(result[0]));
+            return -1;
+        }
+
+        public int getIdByName(String name)
+        {
+            if ("None".Equals(name)) return -1;
+            DataRow[] result = allScanLists.Select("Name = '" + name + "'");
+            if (result != null)
+                return IdConvOutput(allScanLists.Rows.IndexOf(result[0]));
             return -1;
         }
 

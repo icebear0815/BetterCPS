@@ -27,7 +27,11 @@ namespace BetterCPS.Channel
             rawData[offset] = oneByte;
             return rawData;
         }
-
+        public void FromString(String objString)
+        {
+            base.FromString(objString);
+            value--;
+        }
         public override string ToString()
         {
             return Convert.ToString(value+1);

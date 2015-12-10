@@ -31,14 +31,20 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openCodeplugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveCodeplugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.channelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.channelsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.channelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,8 +63,11 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openCodeplugToolStripMenuItem,
-            this.exportToolStripMenuItem,
+            this.saveCodeplugToolStripMenuItem,
             this.toolStripMenuItem2,
+            this.exportToolStripMenuItem,
+            this.importToolStripMenuItem,
+            this.toolStripMenuItem3,
             this.exitToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
@@ -71,10 +80,52 @@
             this.openCodeplugToolStripMenuItem.Text = "Open Codeplug";
             this.openCodeplugToolStripMenuItem.Click += new System.EventHandler(this.openCodeplug);
             // 
+            // saveCodeplugToolStripMenuItem
+            // 
+            this.saveCodeplugToolStripMenuItem.Name = "saveCodeplugToolStripMenuItem";
+            this.saveCodeplugToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.saveCodeplugToolStripMenuItem.Text = "Save Codeplug";
+            this.saveCodeplugToolStripMenuItem.Click += new System.EventHandler(this.saveCodeplugToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(155, 6);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.channelsToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // channelsToolStripMenuItem
+            // 
+            this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
+            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.channelsToolStripMenuItem.Text = "Channels";
+            this.channelsToolStripMenuItem.Click += new System.EventHandler(this.channelsToolStripMenuItem_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.channelsToolStripMenuItem1});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // channelsToolStripMenuItem1
+            // 
+            this.channelsToolStripMenuItem1.Name = "channelsToolStripMenuItem1";
+            this.channelsToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.channelsToolStripMenuItem1.Text = "Channels";
+            this.channelsToolStripMenuItem1.Click += new System.EventHandler(this.channelsToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(155, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -104,26 +155,22 @@
             this.openFileDialog1.FileName = "*.rdt";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.channelsToolStripMenuItem});
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.exportToolStripMenuItem.Text = "Export";
-            // 
-            // channelsToolStripMenuItem
-            // 
-            this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
-            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.channelsToolStripMenuItem.Text = "Channels";
-            this.channelsToolStripMenuItem.Click += new System.EventHandler(this.channelsToolStripMenuItem_Click);
-            // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "csv";
             this.saveFileDialog1.Filter = "\"CSV-File (*.csv)|*.csv\"";
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "*.csv";
+            this.openFileDialog2.Filter = "CSV Files|*.cvs";
+            this.openFileDialog2.Title = "Import CSV Data";
+            // 
+            // saveFileDialog2
+            // 
+            this.saveFileDialog2.FileName = "*.rdt";
+            this.saveFileDialog2.Filter = "Codeplug|*.rdt";
             // 
             // BetterCPS
             // 
@@ -154,6 +201,12 @@
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem channelsToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem saveCodeplugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem channelsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }
 

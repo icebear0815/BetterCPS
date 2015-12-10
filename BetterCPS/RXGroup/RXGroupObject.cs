@@ -38,6 +38,7 @@ namespace BetterCPS.RXGroup
         public RXGroupObject()
         {
             guid = System.Guid.NewGuid().ToString();
+            initializeRawData();
         }
 
         public String GUID
