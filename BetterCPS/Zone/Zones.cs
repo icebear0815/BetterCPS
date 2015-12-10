@@ -8,8 +8,8 @@ namespace BetterCPS.Zone
 {
     class Zones
     {
-        public const int OFFSET = 0x18A85;
-        public const int DATA_WIDTH = 104; 
+        public const int OFFSET = 0x14C05;
+        public const int DATA_WIDTH = 64; 
         public const int MAX = 250;
 
         private const int GUID = 0;

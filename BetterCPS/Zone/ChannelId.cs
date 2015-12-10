@@ -11,7 +11,7 @@ namespace BetterCPS.Zone
         public const int MAX_ID = 16;
         public ChannelId()
         {
-            offset = 0x32;
+            offset = 0x20;
         }
         public static ChannelId fromRaw(byte[] rawData, int id)
         {
