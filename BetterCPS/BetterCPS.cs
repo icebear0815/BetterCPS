@@ -18,11 +18,11 @@ namespace BetterCPS
     {
         private  bool DEBUG = false;
         Codeplug cp = null;
-        Contacts allContacts;
+        /*Contacts allContacts;
         RXGroups allRXGroups;
         ScanLists allScanLists;
         Zones allZones;
-        Channels allChannels;
+        Channels allChannels;*/
 
         public BetterCPS()
         {
@@ -73,11 +73,11 @@ namespace BetterCPS
 
         private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (allChannels != null)
+            if (cp.AllChannels != null)
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, allChannels.ToCSV(allContacts, allRXGroups, allScanLists, allZones), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
                 }
             }
             else
@@ -100,7 +100,7 @@ namespace BetterCPS
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                allChannels.FromCSV(csvData, allContacts, allRXGroups, allScanLists, allZones);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones);
             }
         }
     }
