@@ -1,0 +1,8 @@
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\obj\Debug\BetterCPS.BetterCPS.resources
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\obj\Debug\BetterCPS.Properties.Resources.resources
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\obj\Debug\BetterCPS.csproj.GenerateResource.Cache
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\obj\Debug\BetterCPS.exe
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\obj\Debug\BetterCPS.pdb
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\bin\Debug\BetterCPS.exe
+C:\Users\larss\Documents\Visual Studio 2008\Projects\BetterCPS\BetterCPS\bin\Debug\BetterCPS.pdb

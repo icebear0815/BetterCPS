@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BetterCPS.Helper;
+using BetterCPS.Channel;
 
 namespace BetterCPS.Zone
 {
@@ -22,6 +23,11 @@ namespace BetterCPS.Zone
         public const int offset = 0x14C05;
         public const int Length = 64;
         public const int maxCount = 250;
+
+        public const int _GUID = 0;
+        public const int _NAME = 1;
+        public const int _CHANNEL = 2;
+
 
         byte[] rawData;
         BaseName name;
@@ -92,6 +98,32 @@ namespace BetterCPS.Zone
             {
                 channelIDs[i] = ChannelId.fromRaw(rawData, i);
             }
+        }
+        public void SetDataFromCSV(String csvData, Channels allChannels)
+        {
+            String[] allFields = csvData.Split(';');
+            guid = allFields[_GUID];
+            name.Value = allFields[_NAME];
+            for (int i = 0; i < allFields.Length - _CHANNEL; i++)
+            {
+                channelIDs[i].Value = allChannels.getIdByName(allFields[_CHANNEL + i]);
+            }
+
+        }
+
+        public String ToString(Channels allChannels)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(guid);
+            sb.Append(";");
+            sb.Append(name);
+            for (int i = 0; i < ChannelId.MAX_ID; i++)
+            {
+                sb.Append(";");
+                sb.Append(allChannels.getNameById(channelIDs[i].Value));
+            }
+            return sb.ToString();
         }
 
         public String toString()

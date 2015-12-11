@@ -103,5 +103,20 @@ namespace BetterCPS
                 cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones);
             }
         }
+
+        private void zonesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cp.AllZones != null)
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+            }
+        }
     }
 }
