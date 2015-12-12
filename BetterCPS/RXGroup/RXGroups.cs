@@ -113,7 +113,7 @@ namespace BetterCPS.RXGroup
         public int getIdByName(String name)
         {
             DataRow[] result = allRXGroups.Select("Name = '" + name + "'");
-            if (result != null)
+            if (result != null && result.Length>0)
                 return IdConvOutput(allRXGroups.Rows.IndexOf(result[0]));
             return -1;
         }

@@ -100,7 +100,7 @@ namespace BetterCPS
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
             }
         }
 

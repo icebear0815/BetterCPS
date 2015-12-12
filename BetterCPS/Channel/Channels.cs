@@ -155,16 +155,22 @@ namespace BetterCPS.Channel
             return allLines;
         }
 
-        public void FromCSV(String[] csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        public void FromCSV(String[] csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones, bool debug)
         {
             initDataTable();
             for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
             {
-                ChannelObject oneChannel = new ChannelObject();
-                oneChannel.SetDataFromCSV(csvData[i], allContacts, allRXGroups, allScanLists, allZones);
-                Console.WriteLine("In:  " + csvData[i]);
-                Console.WriteLine("Out: " + oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones));
-                AddChannel(oneChannel);
+                if (csvData[i].Length > 0)
+                {
+                    ChannelObject oneChannel = new ChannelObject();
+                    oneChannel.SetDataFromCSV(csvData[i], allContacts, allRXGroups, allScanLists, allZones);
+                    if (debug)
+                    {
+                        Console.WriteLine("In:  " + csvData[i]);
+                        Console.WriteLine("Out: " + oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones));
+                    }
+                    AddChannel(oneChannel);
+                }
             }
         }
     }

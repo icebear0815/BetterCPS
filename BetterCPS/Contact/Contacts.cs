@@ -111,9 +111,9 @@ namespace BetterCPS.Contact
         public int getIdByName(String name)
         {
             DataRow[] result = allContacts.Select("Name = '" + name + "'");
-            if (result != null)
+            if (result != null && result.Length>0)
                 return IdConvOutput(allContacts.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
     }
 }
