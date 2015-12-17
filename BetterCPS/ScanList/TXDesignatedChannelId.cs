@@ -23,7 +23,7 @@ namespace BetterCPS.ScanList
             return ci;
         }
 
-        public byte[] toRaw(byte[] rawData, int id)
+        public byte[] toRaw(byte[] rawData)
         {
             uint number = Convert.ToUInt32(value);
             byte upper = (byte)(number >> 8);

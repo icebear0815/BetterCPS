@@ -131,7 +131,7 @@ namespace BetterCPS.Channel
             DataRow[] result = allChannels.Select("GUID = '" + guid + "'");
             if (result != null && result.Length>0)
                 return IdConvOutput(allChannels.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
 
         public int getIdByName(String name)
@@ -139,7 +139,7 @@ namespace BetterCPS.Channel
             DataRow[] result = allChannels.Select("Name = '" + name + "'");
             if (result != null)
                 return IdConvOutput(allChannels.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
 
         public String[] ToCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)

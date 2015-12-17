@@ -91,7 +91,7 @@ namespace BetterCPS
 
         private void saveCodeplugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this, "Noch nicht implementiert!") == DialogResult.OK)
+            if (MessageBox.Show(this, "You do this at your own risk!\nThe author of this software is not responsible for any damage to your hardware!") == DialogResult.OK)
             {
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
                     System.IO.File.WriteAllBytes(saveFileDialog2.FileName, cp.RawData);
@@ -140,6 +140,13 @@ namespace BetterCPS
             {
                 MessageBox.Show(this, "Kein Codeplug geöffnet!");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            String guid = textBox1.Text;
+            idOutLabel.Text = ""+cp.AllChannels.getIdByGUID(guid);
+            nameOutLabel.Text = ""+cp.AllChannels.getObjectByGUID(guid).Name;
         }
     }
 }

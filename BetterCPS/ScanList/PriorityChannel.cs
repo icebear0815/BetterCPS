@@ -33,7 +33,7 @@ namespace BetterCPS.ScanList
             uint number = Convert.ToUInt32(value);
             byte upper = (byte)(number >> 8);
             byte lower = (byte)(number & 0xff);
-            rawData[offset] = lower;
+            rawData[offset + id] = lower;
             rawData[offset + id + 1] = upper;
             return rawData;
         }

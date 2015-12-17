@@ -73,6 +73,10 @@ namespace BetterCPS
         {
             byte[] channelRawData = allChannels.RawDataFromChannels();
             Array.Copy(channelRawData, 0, rawData, Channels.OFFSET, channelRawData.Length);
+            byte[] zoneRawData = allZones.RawDataFromZones();
+            Array.Copy(zoneRawData, 0, rawData, Zones.OFFSET, zoneRawData.Length);
+            byte[] scanListRawData = allScanLists.RawDataFromScanLists();
+            Array.Copy(scanListRawData, 0, rawData, ScanLists.OFFSET, scanListRawData.Length);
         }
         
         private void setDataFromRaw(byte[] data)

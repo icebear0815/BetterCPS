@@ -13,7 +13,7 @@ namespace BetterCPS.ScanList
             0	Name Low Byte of first character 
             1	Name High Byte of first character 
             2-31	Name, Remaining 15 characters
-     *      32+33 Priority Channel 1
+     *      32+33 Priority Channel 1 (0x0000 = Selected 0xffff= None)
      *      34+35 Priotity Channel 2
      *      36+37 TX Designated Channel (FF FF for "Last Active Channel")
      *      38  Unknown = F1
@@ -37,6 +37,9 @@ namespace BetterCPS.ScanList
         public const int _SIGNALINGHOLDTIME = 5;
         public const int _PRIORITYSAMPLETIME = 6;
         public const int _CHANNEL = 7;
+
+        public const int NONE = 0xffff;
+        public const int SELECTED = 0x0000;
 
         byte[] rawData;
         BaseName name;
@@ -103,8 +106,8 @@ namespace BetterCPS.ScanList
             initializeRawData();
 
             rawData = name.toRaw(rawData);
-            rawData = priorityChannel1.toRaw(rawData);
-            rawData = priorityChannel2.toRaw(rawData);
+            rawData = priorityChannel1.toRaw(rawData, PriorityChannelId.CHANNEL1);
+            rawData = priorityChannel2.toRaw(rawData, PriorityChannelId.CHANNEL2);
             rawData = txDesignatedChannelId.toRaw(rawData);
             rawData = signalingHoldTime.toRaw(rawData);
             rawData = prioritySampleTime.toRaw(rawData);
@@ -132,9 +135,9 @@ namespace BetterCPS.ScanList
         private int getPriorityChannelValue(Channels allChannels, String valStr, bool withGUID)
         {
             if ("Selected".Equals(valStr))
-                return 0x00;
+                return SELECTED;
             else if ("None".Equals(valStr))
-                return 0xffff;
+                return NONE;
             else if (withGUID)
                 return allChannels.getIdByGUID(valStr);
             else
@@ -143,7 +146,7 @@ namespace BetterCPS.ScanList
         private int getTXDesignatedChannelValue(Channels allChannels, String valStr, bool withGUID)
         {
             if ("Selected".Equals(valStr))
-                return 0x00;
+                return SELECTED;
             else if ("Last Active Channel".Equals(valStr))
                 return 0xffff;
             else if (withGUID)

@@ -31,6 +31,18 @@ namespace BetterCPS.Zone
             allZones.Columns.Add("Name", typeof(String));
             allZones.Columns.Add("DATA", typeof(ZoneObject));
         }
+        public byte[] RawDataFromZones()
+        {
+            byte[] rawData = new byte[DATA_WIDTH * MAX];
+            int tmpOffset = 0;
+            for (int i = 0; i < allZones.Rows.Count; i++)
+            {
+                ZoneObject oneZone = (ZoneObject)allZones.Rows[i].ItemArray[ZONE];
+                Array.Copy(oneZone.RawData, 0, rawData, tmpOffset, DATA_WIDTH);
+                tmpOffset += DATA_WIDTH;
+            }
+            return rawData;
+        }
         public void ZonesFromRawData(byte[] rawData, bool debug)
         {
             int offset = OFFSET;

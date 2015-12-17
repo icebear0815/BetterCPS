@@ -26,6 +26,11 @@ namespace BetterCPS.ScanList
             return rawData;
         }
 
+        public void FromString(String objStr)
+        {
+            int val = Int32.Parse(objStr);
+            value = val / 250;
+        }
         public override string ToString()
         {
             return Convert.ToString(value * 250);

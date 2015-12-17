@@ -31,7 +31,18 @@ namespace BetterCPS.ScanList
             allScanLists.Columns.Add("Name", typeof(String));
             allScanLists.Columns.Add("DATA", typeof(ScanListObject));
         }
-
+        public byte[] RawDataFromScanLists()
+        {
+            byte[] rawData = new byte[DATA_WIDTH * MAX];
+            int tmpOffset = 0;
+            for (int i = 0; i < allScanLists.Rows.Count; i++)
+            {
+                ScanListObject oneScanList = (ScanListObject)allScanLists.Rows[i].ItemArray[SCANLIST];
+                Array.Copy(oneScanList.RawData, 0, rawData, tmpOffset, DATA_WIDTH);
+                tmpOffset += DATA_WIDTH;
+            }
+            return rawData;
+        }
         public void ScanListsFromRawData(byte[] rawData, bool debug)
         {
             int offset = OFFSET;
