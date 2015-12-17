@@ -112,7 +112,7 @@ namespace BetterCPS.Zone
             return -1;
         }
 
-        public String[] ToCSV(Channels allChannels)
+        public String[] ToCSV(Channels allChannels, bool withGUID)
         {
             int size = allZones.Rows.Count + 1; //count + header line
             String[] allLines = new String[size];
@@ -120,24 +120,39 @@ namespace BetterCPS.Zone
             for (int i = 0; i < allZones.Rows.Count; i++)
             {
                 ZoneObject oneZone = (ZoneObject)allZones.Rows[i].ItemArray[ZONE];
-                if (!"".Equals(oneZone.ZoneName) && !oneZone.ZoneName.StartsWith("\0"))
-                    allLines[i + 1] = oneZone.ToString(allChannels);
+                if (withGUID)
+                {
+                    allLines[i + 1] = oneZone.ToString(allChannels, true);
+                }
+                else
+                {
+                    if (!"".Equals(oneZone.ZoneName) && !oneZone.ZoneName.StartsWith("\0"))
+                        allLines[i + 1] = oneZone.ToString(allChannels);
+                }
 
             }
             return allLines;
         }
+        public String[] ToCSV(Channels allChannels)
+        {
+            return ToCSV(allChannels, false);
+        }
 
-        public void FromCSV(String[] csvData, Channels allChannels)
+        public void FromCSV(String[] csvData, Channels allChannels, bool withGUID)
         {
             initDataTable();
             for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
             {
                 ZoneObject oneZone = new ZoneObject();
-                oneZone.SetDataFromCSV(csvData[i], allChannels);
+                oneZone.SetDataFromCSV(csvData[i], allChannels, withGUID);
                 Console.WriteLine("In:  " + csvData[i]);
                 Console.WriteLine("Out: " + oneZone.ToString(allChannels));
                 AddZone(oneZone);
             }
+        }
+        public void FromCSV(String[] csvData, Channels allChannels)
+        {
+            FromCSV(csvData, allChannels, false);
         }
     }
 }

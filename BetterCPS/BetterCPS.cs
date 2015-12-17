@@ -78,6 +78,9 @@ namespace BetterCPS
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
+                    //
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName+".SL_GUID", cp.AllScanLists.ToCSV(cp.AllChannels, true), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName+".ZN_GUID", cp.AllZones.ToCSV(cp.AllChannels, true), Encoding.UTF8);
                 }
             }
             else
@@ -101,6 +104,11 @@ namespace BetterCPS
             {
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
                 cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                //
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + ".ZN_GUID", Encoding.UTF8);
+                cp.AllZones.FromCSV(csvData, cp.AllChannels, true);
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + ".SL_GUID", Encoding.UTF8);
+                cp.AllScanLists.FromCSV(csvData, cp.AllChannels, true);
             }
         }
 
@@ -111,6 +119,21 @@ namespace BetterCPS
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+            }
+        }
+
+        private void scanListsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cp.AllScanLists != null)
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllScanLists.ToCSV(cp.AllChannels), Encoding.UTF8);
                 }
             }
             else

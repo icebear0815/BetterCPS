@@ -38,6 +38,7 @@ namespace BetterCPS.Zone
         {
             guid = System.Guid.NewGuid().ToString();
             initializeRawData();
+            setDataFromRawData();
         }
 
 
@@ -99,21 +100,23 @@ namespace BetterCPS.Zone
                 channelIDs[i] = ChannelId.fromRaw(rawData, i);
             }
         }
-        public void SetDataFromCSV(String csvData, Channels allChannels)
+        public void SetDataFromCSV(String csvData, Channels allChannels, bool withGUID)
         {
             String[] allFields = csvData.Split(';');
             guid = allFields[_GUID];
             name.Value = allFields[_NAME];
             for (int i = 0; i < allFields.Length - _CHANNEL; i++)
             {
-                channelIDs[i].Value = allChannels.getIdByName(allFields[_CHANNEL + i]);
+                if (withGUID)
+                    channelIDs[i].Value = allChannels.getIdByGUID(allFields[_CHANNEL + i]);
+                else
+                    channelIDs[i].Value = allChannels.getIdByName(allFields[_CHANNEL + i]);
             }
 
         }
 
-        public String ToString(Channels allChannels)
+        public String ToString(Channels allChannels, bool withGUID)
         {
-
             StringBuilder sb = new StringBuilder();
             sb.Append(guid);
             sb.Append(";");
@@ -121,9 +124,17 @@ namespace BetterCPS.Zone
             for (int i = 0; i < ChannelId.MAX_ID; i++)
             {
                 sb.Append(";");
-                sb.Append(allChannels.getNameById(channelIDs[i].Value));
+                if (withGUID)
+                    sb.Append(allChannels.getGUIDById(channelIDs[i].Value));
+                else
+                    sb.Append(allChannels.getNameById(channelIDs[i].Value));
             }
             return sb.ToString();
+        }
+
+        public String ToString(Channels allChannels)
+        {
+            return ToString(allChannels, false);
         }
 
         public String toString()

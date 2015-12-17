@@ -35,6 +35,8 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanListsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channelsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
@@ -45,7 +47,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
-            this.zonesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,7 +98,8 @@
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.channelsToolStripMenuItem,
-            this.zonesToolStripMenuItem});
+            this.zonesToolStripMenuItem,
+            this.scanListsToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.exportToolStripMenuItem.Text = "Export";
@@ -105,9 +107,23 @@
             // channelsToolStripMenuItem
             // 
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
-            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.channelsToolStripMenuItem.Text = "Channels";
             this.channelsToolStripMenuItem.Click += new System.EventHandler(this.channelsToolStripMenuItem_Click);
+            // 
+            // zonesToolStripMenuItem
+            // 
+            this.zonesToolStripMenuItem.Name = "zonesToolStripMenuItem";
+            this.zonesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.zonesToolStripMenuItem.Text = "Zones";
+            this.zonesToolStripMenuItem.Click += new System.EventHandler(this.zonesToolStripMenuItem_Click);
+            // 
+            // scanListsToolStripMenuItem
+            // 
+            this.scanListsToolStripMenuItem.Name = "scanListsToolStripMenuItem";
+            this.scanListsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.scanListsToolStripMenuItem.Text = "ScanLists";
+            this.scanListsToolStripMenuItem.Click += new System.EventHandler(this.scanListsToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
@@ -160,7 +176,8 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "csv";
-            this.saveFileDialog1.Filter = "\"CSV-File (*.csv)|*.csv\"";
+            this.saveFileDialog1.FileName = "*.csv";
+            this.saveFileDialog1.Filter = "CSV-File|*.csv";
             this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // openFileDialog2
@@ -173,13 +190,6 @@
             // 
             this.saveFileDialog2.FileName = "*.rdt";
             this.saveFileDialog2.Filter = "Codeplug|*.rdt";
-            // 
-            // zonesToolStripMenuItem
-            // 
-            this.zonesToolStripMenuItem.Name = "zonesToolStripMenuItem";
-            this.zonesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.zonesToolStripMenuItem.Text = "Zones";
-            this.zonesToolStripMenuItem.Click += new System.EventHandler(this.zonesToolStripMenuItem_Click);
             // 
             // BetterCPS
             // 
@@ -217,6 +227,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
         private System.Windows.Forms.ToolStripMenuItem zonesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanListsToolStripMenuItem;
     }
 }
 

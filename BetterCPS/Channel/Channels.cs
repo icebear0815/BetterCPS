@@ -121,13 +121,15 @@ namespace BetterCPS.Channel
 
         public String getGUIDById(int id)
         {
+            if (IdConvInput(id) < 0)
+                return "";
             return (String)allChannels.Rows[IdConvInput(id)].ItemArray[GUID];
         }
 
         public int getIdByGUID(String guid)
         {
             DataRow[] result = allChannels.Select("GUID = '" + guid + "'");
-            if (result != null)
+            if (result != null && result.Length>0)
                 return IdConvOutput(allChannels.Rows.IndexOf(result[0]));
             return -1;
         }

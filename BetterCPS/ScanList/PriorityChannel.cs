@@ -37,5 +37,6 @@ namespace BetterCPS.ScanList
             rawData[offset + id + 1] = upper;
             return rawData;
         }
+
     }
 }
