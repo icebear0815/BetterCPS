@@ -167,11 +167,16 @@ namespace BetterCPS
 
         private void contactsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //import contacts
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
+                System.IO.File.WriteAllLines(openFileDialog2.FileName+"~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
                 cp.AllContacts.FromCSV(csvData, cp.Debug);
                 //
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
             }
         }
     }
