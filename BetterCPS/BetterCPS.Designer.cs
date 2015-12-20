@@ -53,6 +53,8 @@
             this.idOutLabel = new System.Windows.Forms.Label();
             this.nameOutLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.contactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contactsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +106,7 @@
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.channelsToolStripMenuItem,
+            this.contactsToolStripMenuItem,
             this.zonesToolStripMenuItem,
             this.scanListsToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
@@ -113,28 +116,29 @@
             // channelsToolStripMenuItem
             // 
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
-            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.channelsToolStripMenuItem.Text = "Channels";
             this.channelsToolStripMenuItem.Click += new System.EventHandler(this.channelsToolStripMenuItem_Click);
             // 
             // zonesToolStripMenuItem
             // 
             this.zonesToolStripMenuItem.Name = "zonesToolStripMenuItem";
-            this.zonesToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.zonesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.zonesToolStripMenuItem.Text = "Zones";
             this.zonesToolStripMenuItem.Click += new System.EventHandler(this.zonesToolStripMenuItem_Click);
             // 
             // scanListsToolStripMenuItem
             // 
             this.scanListsToolStripMenuItem.Name = "scanListsToolStripMenuItem";
-            this.scanListsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.scanListsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.scanListsToolStripMenuItem.Text = "ScanLists";
             this.scanListsToolStripMenuItem.Click += new System.EventHandler(this.scanListsToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.channelsToolStripMenuItem1});
+            this.channelsToolStripMenuItem1,
+            this.contactsToolStripMenuItem1});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.importToolStripMenuItem.Text = "Import";
@@ -142,7 +146,7 @@
             // channelsToolStripMenuItem1
             // 
             this.channelsToolStripMenuItem1.Name = "channelsToolStripMenuItem1";
-            this.channelsToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.channelsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.channelsToolStripMenuItem1.Text = "Channels";
             this.channelsToolStripMenuItem1.Click += new System.EventHandler(this.channelsToolStripMenuItem1_Click);
             // 
@@ -170,7 +174,7 @@
             // 
             this.debugToolStripMenuItem.CheckOnClick = true;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.debugToolStripMenuItem.Text = "Debug";
             this.debugToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.checkStateChanged);
             // 
@@ -251,6 +255,20 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Name:";
             // 
+            // contactsToolStripMenuItem
+            // 
+            this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
+            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.contactsToolStripMenuItem.Text = "Contacts";
+            this.contactsToolStripMenuItem.Click += new System.EventHandler(this.contactsToolStripMenuItem_Click);
+            // 
+            // contactsToolStripMenuItem1
+            // 
+            this.contactsToolStripMenuItem1.Name = "contactsToolStripMenuItem1";
+            this.contactsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.contactsToolStripMenuItem1.Text = "Contacts";
+            this.contactsToolStripMenuItem1.Click += new System.EventHandler(this.contactsToolStripMenuItem1_Click);
+            // 
             // BetterCPS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -300,6 +318,8 @@
         private System.Windows.Forms.Label idOutLabel;
         private System.Windows.Forms.Label nameOutLabel;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem1;
     }
 }
 

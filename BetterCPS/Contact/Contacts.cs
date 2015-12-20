@@ -20,13 +20,27 @@ namespace BetterCPS.Contact
 
         public Contacts()
         {
+            initDataTable();
+        }
+        private void initDataTable()
+        {
             allContacts = new DataTable();
             allContacts.Columns.Add("GUID", typeof(String));
             allContacts.Columns.Add("Name", typeof(String));
             allContacts.Columns.Add("DATA", typeof(ContactEntry));
-        
         }
-
+        public byte[] RawDataFromContacts()
+        {
+            byte[] rawData = new byte[DATA_WIDTH * MAX];
+            int tmpOffset = 0;
+            for (int i = 0; i < allContacts.Rows.Count; i++)
+            {
+                ContactEntry oneContact = (ContactEntry)allContacts.Rows[i].ItemArray[CONTACT];
+                Array.Copy(oneContact.RawData, 0, rawData, tmpOffset, DATA_WIDTH);
+                tmpOffset += DATA_WIDTH;
+            }
+            return rawData;
+        }
         public void ContactsFromRawData(byte[] rawData, bool debug)
         {
             int offset = OFFSET;
@@ -52,7 +66,7 @@ namespace BetterCPS.Contact
                 AddContact(ch);
                 if (debug)
                 {
-                    Console.WriteLine(ch.toString());
+                    Console.WriteLine(ch.ToString());
                     oneContactRaw = ch.RawData;
                     for (int j = 0; j < DATA_WIDTH; j++)
                     {
@@ -114,6 +128,41 @@ namespace BetterCPS.Contact
             if (result != null && result.Length>0)
                 return IdConvOutput(allContacts.Rows.IndexOf(result[0]));
             return 0;
+        }
+
+        public String[] ToCSV()
+        {
+            int size = allContacts.Rows.Count + 1; //count + header line
+            String[] allLines = new String[size];
+            allLines[0] = "Name;Type;CallID;CallReceiveTone";
+            for (int i = 0; i < allContacts.Rows.Count; i++)
+            {
+                ContactEntry oneContact = (ContactEntry)allContacts.Rows[i].ItemArray[CONTACT];
+                if (!"".Equals(oneContact.ContactName) && !oneContact.ContactName.StartsWith("\0"))
+                    allLines[i + 1] = oneContact.ToString();
+                
+            }
+            return allLines;
+        }
+        
+
+        public void FromCSV(String[] csvData, bool debug)
+        {
+            initDataTable();
+            for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
+            {
+                if (csvData[i].Length > 0)
+                {
+                    ContactEntry oneContact = new ContactEntry();
+                    oneContact.SetDataFromCSV(csvData[i]);
+                    if (debug)
+                    {
+                        Console.WriteLine("In:  " + csvData[i]);
+                        Console.WriteLine("Out: " + oneContact.ToString());
+                    }   
+                    AddContact(oneContact);
+                }
+            }
         }
     }
 }

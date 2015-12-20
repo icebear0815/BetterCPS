@@ -18,6 +18,7 @@ namespace BetterCPS
     {
         private  bool DEBUG = false;
         Codeplug cp = null;
+        private String RELEASE = "0.1alpha";
         /*Contacts allContacts;
         RXGroups allRXGroups;
         ScanLists allScanLists;
@@ -147,6 +148,31 @@ namespace BetterCPS
             String guid = textBox1.Text;
             idOutLabel.Text = ""+cp.AllChannels.getIdByGUID(guid);
             nameOutLabel.Text = ""+cp.AllChannels.getObjectByGUID(guid).Name;
+        }
+
+        private void contactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cp.AllContacts != null)
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllContacts.ToCSV(), Encoding.UTF8);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+            }
+        }
+
+        private void contactsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
+                cp.AllContacts.FromCSV(csvData, cp.Debug);
+                //
+            }
         }
     }
 }

@@ -29,6 +29,15 @@ namespace BetterCPS.Contact
             sp.fromRaw(rawData);
             return sp;
         }
+
+        public void FromString(String objString)
+        {
+            if ("Yes".Equals(objString))
+                value = YES;
+            else if ("No".Equals(objString))
+                value = NO;
+            else throw new ArgumentException("Can't convert: " + objString + " to CallReceiveTone(\"Yes\",\"No\").");
+        }
         public override string ToString()
         {
             if (YES == value)

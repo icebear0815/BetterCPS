@@ -32,6 +32,12 @@ namespace BetterCPS.Contact
         public const int offset = 0x061A5;
         public const int Length = 36;
 
+        public const int _GUID = -1;
+        public const int _NAME = 0;
+        public const int _TYPE = 1;
+        public const int _CALLID = 2;
+        public const int _CALLRECEIVETONE = 3;
+
         byte[] rawData;
 
         private CallId callId;
@@ -49,6 +55,8 @@ namespace BetterCPS.Contact
         public ContactEntry()
         {
             guid = System.Guid.NewGuid().ToString();
+            initializeRawData();
+            setDataFromRawData();
         }
 
         public String GUID
@@ -97,11 +105,21 @@ namespace BetterCPS.Contact
             name = Name.fromRaw(rawData);
         }
 
-       public String toString()
+        public void SetDataFromCSV(String csvData)
+        {
+            String[] allFields = csvData.Split(';');
+            //guid = allFields[_GUID];
+            name.Value = allFields[_NAME];
+            cType.FromString(allFields[_TYPE]);
+            callId.FromString(allFields[_CALLID]);
+            callReceiveTone.FromString(allFields[_CALLRECEIVETONE]);
+        }
+
+       public String ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(guid);
-            sb.Append(";");
+            //sb.Append(guid);
+            //sb.Append(";");
             sb.Append(name);
             sb.Append(";");
             sb.Append(cType);

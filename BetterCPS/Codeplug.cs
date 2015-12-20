@@ -77,6 +77,8 @@ namespace BetterCPS
             Array.Copy(zoneRawData, 0, rawData, Zones.OFFSET, zoneRawData.Length);
             byte[] scanListRawData = allScanLists.RawDataFromScanLists();
             Array.Copy(scanListRawData, 0, rawData, ScanLists.OFFSET, scanListRawData.Length);
+            byte[] contactRawData = allContacts.RawDataFromContacts();
+            Array.Copy(contactRawData, 0, rawData, Contacts.OFFSET, contactRawData.Length);
         }
         
         private void setDataFromRaw(byte[] data)

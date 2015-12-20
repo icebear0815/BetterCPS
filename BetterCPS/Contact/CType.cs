@@ -28,6 +28,18 @@ namespace BetterCPS.Contact
             return ct;
         }
 
+        public void FromString(String objString)
+        {
+            if ("Blank".Equals(objString))
+                value = BLANK;
+            else if ("Group Call".Equals(objString))
+                value = GROUP;
+            else if ("Private Call".Equals(objString))
+                value =  PRIVATE;
+            else if ("All Call".Equals(objString))
+                value = ALL;
+            else throw new ArgumentException("Can't convert: "+objString+" to a valid CallType!");
+        }
         public override string ToString()
         {
             if (BLANK == value)
