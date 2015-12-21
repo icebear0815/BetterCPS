@@ -103,6 +103,39 @@ namespace BetterCPS
         {
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
+                String znPath = openFileDialog2.FileName + ".ZN_GUID";
+                if (!System.IO.File.Exists(znPath))
+                {
+                    MessageBox.Show("Can't find " + znPath + " ! Please select file location!");
+                    openFileDialog2.FileName = "*.ZN_GUID";
+                    if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                    {
+                        znPath = openFileDialog2.FileName + ".ZN_GUID";
+                        openFileDialog2.FileName = "*.csv";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operation canceld!");
+                        return;
+                    }
+                }
+                String slPath = openFileDialog2.FileName + ".SL_GUID";
+                if (!System.IO.File.Exists(slPath))
+                {
+                    MessageBox.Show("Can't find " + slPath + " ! Please select file location!");
+                    openFileDialog2.FileName = "*.SL_GUID";
+                    if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                    {
+                        slPath = openFileDialog2.FileName + ".SL_GUID";
+                        openFileDialog2.FileName = "*.csv";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operation canceld!");
+                        return;
+                    }
+                }
+
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
                 cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
                 //
@@ -110,6 +143,7 @@ namespace BetterCPS
                 cp.AllZones.FromCSV(csvData, cp.AllChannels, true);
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + ".SL_GUID", Encoding.UTF8);
                 cp.AllScanLists.FromCSV(csvData, cp.AllChannels, true);
+                
             }
         }
 
