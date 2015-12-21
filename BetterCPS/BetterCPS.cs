@@ -27,6 +27,8 @@ namespace BetterCPS
 
         public BetterCPS()
         {
+            Console.WriteLine("Version: "+typeof(BetterCPS).Assembly.GetName().Version.ToString());
+            
             InitializeComponent();
             cp = new Codeplug();
         }
@@ -176,12 +178,7 @@ namespace BetterCPS
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            String guid = textBox1.Text;
-            idOutLabel.Text = ""+cp.AllChannels.getIdByGUID(guid);
-            nameOutLabel.Text = ""+cp.AllChannels.getObjectByGUID(guid).Name;
-        }
+        
 
         private void contactsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -248,5 +245,18 @@ namespace BetterCPS
                 System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
             }
         }
+
+        private void versionLabelToolStripMenuItem_VisibleChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Version: "+typeof(BetterCPS).Assembly.GetName().Version.ToString()+"\n"
+                            +"\nCopyright by Lars Schindler\n");
+        }
+
+        
     }
 }
