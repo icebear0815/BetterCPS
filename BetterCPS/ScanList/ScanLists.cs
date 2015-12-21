@@ -165,11 +165,14 @@ namespace BetterCPS.ScanList
             initDataTable();
             for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
             {
-                ScanListObject oneScanList = new ScanListObject();
-                oneScanList.SetDataFromCSV(csvData[i], allChannels, withGUID);
-                Console.WriteLine("In:  " + csvData[i]);
-                Console.WriteLine("Out: " + oneScanList.ToString(allChannels));
-                AddScanList(oneScanList);
+                if (csvData[i].Length > 0)
+                {
+                    ScanListObject oneScanList = new ScanListObject();
+                    oneScanList.SetDataFromCSV(csvData[i], allChannels, withGUID);
+                    Console.WriteLine("In:  " + csvData[i]);
+                    Console.WriteLine("Out: " + oneScanList.ToString(allChannels));
+                    AddScanList(oneScanList);
+                }
             }
         }
     }

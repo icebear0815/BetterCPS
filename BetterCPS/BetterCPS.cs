@@ -213,5 +213,41 @@ namespace BetterCPS
                 System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
             }
         }
+
+        private void zonesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Import Zones
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                //export channels
+                System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
+                //import zones
+                String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
+                cp.AllZones.FromCSV(csvData, cp.AllChannels, cp.Debug);
+                //
+                //re-import channels -> may be refernces will be updated
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
+            }
+        }
+
+        private void scanListsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Import ScanLists
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                //export channels
+                System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
+                //import scanLists
+                String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
+                cp.AllScanLists.FromCSV(csvData, cp.AllChannels, cp.Debug);
+                //
+                //re-import channels -> may be refernces will be updated
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
+            }
+        }
     }
 }

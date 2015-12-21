@@ -155,11 +155,15 @@ namespace BetterCPS.Zone
             initDataTable();
             for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
             {
-                ZoneObject oneZone = new ZoneObject();
-                oneZone.SetDataFromCSV(csvData[i], allChannels, withGUID);
-                Console.WriteLine("In:  " + csvData[i]);
-                Console.WriteLine("Out: " + oneZone.ToString(allChannels));
-                AddZone(oneZone);
+                if (csvData[i].Length > 0)
+                {
+                    ZoneObject oneZone = new ZoneObject();
+                    oneZone.SetDataFromCSV(csvData[i], allChannels, withGUID);
+                    
+                    Console.WriteLine("In:  " + csvData[i]);
+                    Console.WriteLine("Out: " + oneZone.ToString(allChannels));
+                    AddZone(oneZone);
+                }
             }
         }
         public void FromCSV(String[] csvData, Channels allChannels)

@@ -55,6 +55,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.contactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contactsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.zonesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanListsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,7 +140,9 @@
             // 
             this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.channelsToolStripMenuItem1,
-            this.contactsToolStripMenuItem1});
+            this.contactsToolStripMenuItem1,
+            this.zonesToolStripMenuItem1,
+            this.scanListsToolStripMenuItem1});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.importToolStripMenuItem.Text = "Import";
@@ -269,6 +273,20 @@
             this.contactsToolStripMenuItem1.Text = "Contacts";
             this.contactsToolStripMenuItem1.Click += new System.EventHandler(this.contactsToolStripMenuItem1_Click);
             // 
+            // zonesToolStripMenuItem1
+            // 
+            this.zonesToolStripMenuItem1.Name = "zonesToolStripMenuItem1";
+            this.zonesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.zonesToolStripMenuItem1.Text = "Zones";
+            this.zonesToolStripMenuItem1.Click += new System.EventHandler(this.zonesToolStripMenuItem1_Click);
+            // 
+            // scanListsToolStripMenuItem1
+            // 
+            this.scanListsToolStripMenuItem1.Name = "scanListsToolStripMenuItem1";
+            this.scanListsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.scanListsToolStripMenuItem1.Text = "ScanLists";
+            this.scanListsToolStripMenuItem1.Click += new System.EventHandler(this.scanListsToolStripMenuItem1_Click);
+            // 
             // BetterCPS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,6 +338,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem zonesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem scanListsToolStripMenuItem1;
     }
 }
 
