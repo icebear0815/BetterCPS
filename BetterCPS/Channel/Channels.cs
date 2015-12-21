@@ -166,7 +166,7 @@ namespace BetterCPS.Channel
                 {
                     ChannelObject oneChannel = new ChannelObject();
                     oneChannel.SetDataFromCSV(csvData[i], allContacts, allRXGroups, allScanLists, allZones);
-                    if (debug)
+                    if (Debug.GetInstance().DebugOn)
                     {
                         Console.WriteLine("In:  " + csvData[i]);
                         Console.WriteLine("Out: " + oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones));

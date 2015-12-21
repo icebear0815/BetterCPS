@@ -169,8 +169,11 @@ namespace BetterCPS.ScanList
                 {
                     ScanListObject oneScanList = new ScanListObject();
                     oneScanList.SetDataFromCSV(csvData[i], allChannels, withGUID);
-                    Console.WriteLine("In:  " + csvData[i]);
-                    Console.WriteLine("Out: " + oneScanList.ToString(allChannels));
+                    if (Debug.GetInstance().DebugOn)
+                    {
+                        Console.WriteLine("In:  " + csvData[i]);
+                        Console.WriteLine("Out: " + oneScanList.ToString(allChannels));
+                    }
                     AddScanList(oneScanList);
                 }
             }

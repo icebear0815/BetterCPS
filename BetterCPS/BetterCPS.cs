@@ -63,8 +63,7 @@ namespace BetterCPS
 
         private void checkStateChanged(object sender, EventArgs e)
         {
-            DEBUG = ((ToolStripMenuItem)sender).Checked;
-            cp.Debug = DEBUG;
+            Debug.GetInstance().DebugOn = ((ToolStripMenuItem)sender).Checked;
         }
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -137,7 +136,7 @@ namespace BetterCPS
                 }
 
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, Debug.GetInstance().DebugOn);
                 //
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + ".ZN_GUID", Encoding.UTF8);
                 cp.AllZones.FromCSV(csvData, cp.AllChannels, true);
@@ -206,10 +205,10 @@ namespace BetterCPS
             {
                 System.IO.File.WriteAllLines(openFileDialog2.FileName+"~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                cp.AllContacts.FromCSV(csvData, cp.Debug);
+                cp.AllContacts.FromCSV(csvData, Debug.GetInstance().DebugOn);
                 //
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
-                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, Debug.GetInstance().DebugOn);
                 System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
             }
         }
@@ -223,11 +222,11 @@ namespace BetterCPS
                 System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
                 //import zones
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                cp.AllZones.FromCSV(csvData, cp.AllChannels, cp.Debug);
+                cp.AllZones.FromCSV(csvData, cp.AllChannels, false);
                 //
                 //re-import channels -> may be refernces will be updated
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
-                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, Debug.GetInstance().DebugOn);
                 System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
             }
         }
@@ -241,11 +240,11 @@ namespace BetterCPS
                 System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
                 //import scanLists
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                cp.AllScanLists.FromCSV(csvData, cp.AllChannels, cp.Debug);
+                cp.AllScanLists.FromCSV(csvData, cp.AllChannels, false);
                 //
                 //re-import channels -> may be refernces will be updated
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
-                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, cp.Debug);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, Debug.GetInstance().DebugOn);
                 System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
             }
         }

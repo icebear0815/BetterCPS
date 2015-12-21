@@ -75,6 +75,7 @@
     <Compile Include="Contact\Name.cs" />
     <Compile Include="Contact\ContactEntry.cs" />
     <Compile Include="Contact\CallId.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="RXGroup\RXGroups.cs" />
     <Compile Include="ScanList\ChannelId.cs" />
     <Compile Include="ScanList\PriorityChannel.cs" />

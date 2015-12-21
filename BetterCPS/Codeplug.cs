@@ -15,11 +15,11 @@ namespace BetterCPS
     {
         bool debug = false;
 
-        public bool Debug
+        /*public bool Debug
         {
             get { return debug; }
             set { debug = value; }
-        }
+        }*/
         byte[] rawData;
         Contacts allContacts;
 

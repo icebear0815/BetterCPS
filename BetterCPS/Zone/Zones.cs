@@ -159,9 +159,11 @@ namespace BetterCPS.Zone
                 {
                     ZoneObject oneZone = new ZoneObject();
                     oneZone.SetDataFromCSV(csvData[i], allChannels, withGUID);
-                    
-                    Console.WriteLine("In:  " + csvData[i]);
-                    Console.WriteLine("Out: " + oneZone.ToString(allChannels));
+                    if (Debug.GetInstance().DebugOn)
+                    {
+                        Console.WriteLine("In:  " + csvData[i]);
+                        Console.WriteLine("Out: " + oneZone.ToString(allChannels));
+                    }
                     AddZone(oneZone);
                 }
             }
