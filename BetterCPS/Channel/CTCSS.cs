@@ -10,13 +10,13 @@ namespace BetterCPS.Channel
         public const int OFFSET_ENC = 0x1A;
         public const int OFFSET_DEC = 0x18;
         private int offset;
-        private int value;
+        //private int value;
 
-        public int Value
+        /*public int Value
         {
           get { return this.value; }
           set { this.value = value; }
-        }
+        }*/
         public CTCSS(int offset)
         {
             this.offset = offset;
@@ -32,14 +32,14 @@ namespace BetterCPS.Channel
             }
             else
             {
-                ctcss.Value = -1;
+                ctcss.Freq = 0xffff;
             }
             return ctcss;
         }
         public byte[] toRaw(byte[] rawData)
         {
             byte[] bcdBytes;
-            if (value == -1)
+            if (Freq == 0xffff)
             {
                 bcdBytes = new byte[] { 0xff, 0xff };
             }
@@ -50,15 +50,16 @@ namespace BetterCPS.Channel
             Array.Copy(bcdBytes, 0, rawData, offset, 2);
             return rawData;
         }
+        /*
         public void FromString(String objStr)
         {
             if ("None".Equals(objStr))
-                Freq = -1;
+                value = -1;
             base.FromString(objStr);
-        }
+        }*/
         public override String ToString()
         {
-            if (value == -1)
+            if (Freq == 0xffff)
                 return "None";
             else
                 return base.ToString();

@@ -21,7 +21,7 @@ namespace BetterCPS
             Console.WriteLine(mask);*/
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BetterCPS());
+            Application.Run(new CPSManager());
         }
     }
 }

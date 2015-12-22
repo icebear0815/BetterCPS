@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using BetterCPS.Channel;
+using BetterCPS.Helper;
 
 namespace BetterCPS.ScanList
 {
@@ -122,16 +123,16 @@ namespace BetterCPS.ScanList
             DataRow[] result = allScanLists.Select("GUID = '" + guid + "'");
             if (result != null)
                 return IdConvOutput(allScanLists.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
 
         public int getIdByName(String name)
         {
             if ("None".Equals(name)) return -1;
             DataRow[] result = allScanLists.Select("Name = '" + name + "'");
-            if (result != null)
+            if (result != null && result.Length>0)
                 return IdConvOutput(allScanLists.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
 
         public String[] ToCSV(Channels allChannels, bool withGUID)
@@ -142,13 +143,13 @@ namespace BetterCPS.ScanList
             for (int i = 0; i < allScanLists.Rows.Count; i++)
             {
                 ScanListObject oneScanList = (ScanListObject)allScanLists.Rows[i].ItemArray[SCANLIST];
-                if (withGUID)
+                if (withGUID && !Tools.IsEmpty(oneScanList.ScanListName))
                 {
                     allLines[i + 1] = oneScanList.ToString(allChannels, true);
                 }
                 else
                 {
-                    if (!"".Equals(oneScanList.ScanListName) && !oneScanList.ScanListName.StartsWith("\0"))
+                    if (!Tools.IsEmpty(oneScanList.ScanListName))
                         allLines[i + 1] = oneScanList.ToString(allChannels);
                 }
 

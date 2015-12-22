@@ -35,6 +35,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
+    <Reference Include="System.Data.SQLite.Linq, Version=2.0.38.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -60,11 +62,11 @@
     <Compile Include="Channel\PrivacyNo.cs" />
     <Compile Include="Channel\Privacy.cs" />
     <Compile Include="Codeplug.cs" />
-    <Compile Include="BetterCPS.cs">
+    <Compile Include="CPSManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BetterCPS.Designer.cs">
-      <DependentUpon>BetterCPS.cs</DependentUpon>
+    <Compile Include="CPSManager.Designer.cs">
+      <DependentUpon>CPSManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Channel\ContactId.cs" />
     <Compile Include="Channel\CTCSS.cs" />
@@ -75,7 +77,9 @@
     <Compile Include="Contact\Name.cs" />
     <Compile Include="Contact\ContactEntry.cs" />
     <Compile Include="Contact\CallId.cs" />
+    <Compile Include="DBAccess.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="Helper\Tools.cs" />
     <Compile Include="RXGroup\RXGroups.cs" />
     <Compile Include="ScanList\ChannelId.cs" />
     <Compile Include="ScanList\PriorityChannel.cs" />
@@ -91,8 +95,8 @@
     <Compile Include="Helper\SimpleParameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="BetterCPS.resx">
-      <DependentUpon>BetterCPS.cs</DependentUpon>
+    <EmbeddedResource Include="CPSManager.resx">
+      <DependentUpon>CPSManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

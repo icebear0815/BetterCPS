@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using BetterCPS.Channel;
+using BetterCPS.Helper;
 
 namespace BetterCPS.Zone
 {
@@ -121,7 +122,7 @@ namespace BetterCPS.Zone
             DataRow[] result = allZones.Select("GUID = '" + guid + "'");
             if (result != null)
                 return IdConvOutput(allZones.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
 
         public String[] ToCSV(Channels allChannels, bool withGUID)
@@ -132,13 +133,13 @@ namespace BetterCPS.Zone
             for (int i = 0; i < allZones.Rows.Count; i++)
             {
                 ZoneObject oneZone = (ZoneObject)allZones.Rows[i].ItemArray[ZONE];
-                if (withGUID)
+                if (withGUID && !Tools.IsEmpty(oneZone.ZoneName))
                 {
                     allLines[i + 1] = oneZone.ToString(allChannels, true);
                 }
                 else
                 {
-                    if (!"".Equals(oneZone.ZoneName) && !oneZone.ZoneName.StartsWith("\0"))
+                    if (!Tools.IsEmpty(oneZone.ZoneName))
                         allLines[i + 1] = oneZone.ToString(allChannels);
                 }
 

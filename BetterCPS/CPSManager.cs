@@ -14,21 +14,14 @@ using BetterCPS.RXGroup;
 
 namespace BetterCPS
 {
-    public partial class BetterCPS : Form
+    public partial class CPSManager : Form
     {
-        private  bool DEBUG = false;
         Codeplug cp = null;
-        private String RELEASE = "0.1alpha";
-        /*Contacts allContacts;
-        RXGroups allRXGroups;
-        ScanLists allScanLists;
-        Zones allZones;
-        Channels allChannels;*/
 
-        public BetterCPS()
+        public CPSManager()
         {
-            Console.WriteLine("Version: "+typeof(BetterCPS).Assembly.GetName().Version.ToString());
-            
+            Console.WriteLine("Version: "+typeof(CPSManager).Assembly.GetName().Version.ToString());
+            //DBAccess.GetInstance();
             InitializeComponent();
             cp = new Codeplug();
         }
@@ -253,8 +246,9 @@ namespace BetterCPS
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Version: "+typeof(BetterCPS).Assembly.GetName().Version.ToString()+"\n"
-                            +"\nCopyright by Lars Schindler\n");
+            MessageBox.Show("Version: "+typeof(CPSManager).Assembly.GetName().Version.ToString()+"\n"
+                            +"\n     Copyright by Lars Schindler"
+                            +"\n                   - DH6OBN -");
         }
 
         

@@ -137,7 +137,7 @@ namespace BetterCPS.Channel
         public int getIdByName(String name)
         {
             DataRow[] result = allChannels.Select("Name = '" + name + "'");
-            if (result != null)
+            if (result != null && result.Length > 0)
                 return IdConvOutput(allChannels.Rows.IndexOf(result[0]));
             return 0;
         }
