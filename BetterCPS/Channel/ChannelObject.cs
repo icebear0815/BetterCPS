@@ -359,6 +359,11 @@ namespace BetterCPS.Channel
 
         public void SetDataFromCSV(String csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
         {
+            SetDataFromCSV(csvData, allContacts, allRXGroups, allScanLists, allZones, false);
+        }
+
+        public void SetDataFromCSV(String csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones, bool withGUID)
+        {
             String[] allFields = csvData.Split(';');
             guid = allFields[_GUID];
             mode.fromString(allFields[_MODE]);
@@ -366,7 +371,14 @@ namespace BetterCPS.Channel
             rxFreq.FromString(allFields[_RXFREQ]);
             txFreq.FromString(allFields[_TXFREQ]);
             bandwidth.FromString(allFields[_BANDWIDTH]);
-            scanListId = allScanLists.getIdByName(allFields[_SCANLISTID]);
+            if (withGUID)
+            {
+                scanListId = allScanLists.getIdByGUID(allFields[_SCANLISTID]);
+            }
+            else
+            {
+                scanListId = allScanLists.getIdByName(allFields[_SCANLISTID]);
+            }
             squelch.FromString(allFields[_SQUELCH]);
             rxRefFrequency.FromString(allFields[_RXREFFREQUENCY]);
             txRefFrequency.FromString(allFields[_TXREFFREQUENCY]);
@@ -399,14 +411,27 @@ namespace BetterCPS.Channel
             dataCallConfirmed.FromString(allFields[_DATACALLCONFIRMED]);
             compressedUPDHeader.FromString(allFields[_COMPRESSEDUPDHEADER]);
             emergencySystemId = "None".Equals(allFields[_EMERGENCYSYSTEMID])?0:Int32.Parse(allFields[_EMERGENCYSYSTEMID]);
-            contactId.Value = allContacts.getIdByName(allFields[_CONTACTID]);
+            if (withGUID)
+            {
+                contactId.Value = allContacts.getIdByGUID(allFields[_CONTACTID]);
+            }
+            else
+            {
+                contactId.Value = allContacts.getIdByName(allFields[_CONTACTID]);
+            }
             groupListId = allRXGroups.getIdByName(allFields[_GROUPLISTID]);
             colorCode.FromString(allFields[_COLORCODE]);
             privacy.FromString(allFields[_PRIVACY]);
             privacyNo.FromString(allFields[_PRIVACYNO]);
             repeaterSlot.FromString(allFields[_REPEATERSLOT]);
         }
+
         public String ToString(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        {
+            return ToString(allContacts, allRXGroups, allScanLists, allZones, false);
+        }
+
+        public String ToString(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones, bool withGUID)
         {
             
             StringBuilder sb = new StringBuilder();
@@ -423,8 +448,16 @@ namespace BetterCPS.Channel
             sb.Append(bandwidth);
             sb.Append(";");
             //sb.Append(scanListId);
-            sb.Append(scanListId>0?allScanLists.getObjectById(scanListId).ScanListName:"None");
-            sb.Append(";");
+            if (withGUID)
+            {
+                sb.Append(scanListId>0?allScanLists.getObjectById(scanListId).ScanListName:"None");
+                sb.Append(";");
+            }
+            else
+            {
+                sb.Append(scanListId>0?allScanLists.getObjectById(scanListId).ScanListName:"None");
+                sb.Append(";");
+            }
             sb.Append(squelch);
             sb.Append(";");
             sb.Append(rxRefFrequency);
@@ -490,8 +523,16 @@ namespace BetterCPS.Channel
             sb.Append(emergencySystemId>0?"Unknwon":"None");
             sb.Append(";");
             //sb.Append(contactId);
-            sb.Append(contactId.Value>0?allContacts.getObjectById(contactId.Value).ContactName:"None");
-            sb.Append(";");
+            if (withGUID)
+            {
+                sb.Append(contactId.Value > 0 ? allContacts.getObjectById(contactId.Value).GUID : "None");
+                sb.Append(";");
+            }
+            else
+            {
+                sb.Append(contactId.Value > 0 ? allContacts.getObjectById(contactId.Value).ContactName : "None");
+                sb.Append(";");
+            }
             //sb.Append(groupListId);
             sb.Append(groupListId>0?allRXGroups.getObjectById(groupListId).RXGroupName:"None");
             sb.Append(";");

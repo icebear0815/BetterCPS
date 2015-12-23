@@ -144,6 +144,10 @@ namespace BetterCPS.Channel
 
         public String[] ToCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
         {
+            return ToCSV(allContacts, allRXGroups, allScanLists, allZones, false);
+        }
+        public String[] ToCSV(Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones, bool withGUID)
+        {
             int size = allChannels.Rows.Count + 1; //count + header line
             String[] allLines = new String[size];
             allLines [0] = "GUID;Mode;ChannelName;RxFreq;TxFreq;BW;ScnLst;Sql;RxRef;TxRef;TOT;Rekey;Power;Admit;AScn;RxOnly;Lone;VOX;ATA;Enc;Dec;QtRev;RxSig;TxSig;RBurst;PTTID;Dec1;Dec2;Dec3;Dec4;Dec5;Dec6;Dec7;Dec8;PCC;EAA;DCC;UDP;ESyst;Contact;GrpLst;Color;Priv;PrivNo;Slot";
@@ -151,13 +155,17 @@ namespace BetterCPS.Channel
             {
                 ChannelObject oneChannel = (ChannelObject)allChannels.Rows[i].ItemArray[CHANNEL];
                 if (oneChannel.Mode.Mode == ChannelMode.ANALOG || oneChannel.Mode.Mode == ChannelMode.DIGITAL)
-                    allLines[i+1] = oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones);
+                    allLines[i+1] = oneChannel.ToString(allContacts, allRXGroups, allScanLists, allZones, withGUID);
 
             }
             return allLines;
         }
 
-        public void FromCSV(String[] csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones, bool debug)
+        public void FromCSV(String[] csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones)
+        {
+            FromCSV(csvData, allContacts, allRXGroups, allScanLists, allZones);
+        }
+        public void FromCSV(String[] csvData, Contacts allContacts, RXGroups allRXGroups, ScanLists allScanLists, Zones allZones, bool withGUID)
         {
             initDataTable();
             for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line

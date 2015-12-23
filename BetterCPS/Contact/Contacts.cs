@@ -119,7 +119,7 @@ namespace BetterCPS.Contact
             DataRow[] result = allContacts.Select("GUID = '" + guid + "'");
             if (result != null)
                 return IdConvOutput(allContacts.Rows.IndexOf(result[0]));
-            return -1;
+            return 0;
         }
 
         public int getIdByName(String name)

@@ -120,6 +120,7 @@ namespace BetterCPS.ScanList
 
         public int getIdByGUID(String guid)
         {
+            if ("None".Equals(guid)) return 0;
             DataRow[] result = allScanLists.Select("GUID = '" + guid + "'");
             if (result != null)
                 return IdConvOutput(allScanLists.Rows.IndexOf(result[0]));
@@ -128,7 +129,7 @@ namespace BetterCPS.ScanList
 
         public int getIdByName(String name)
         {
-            if ("None".Equals(name)) return -1;
+            if ("None".Equals(name)) return 0;
             DataRow[] result = allScanLists.Select("Name = '" + name + "'");
             if (result != null && result.Length>0)
                 return IdConvOutput(allScanLists.Rows.IndexOf(result[0]));
