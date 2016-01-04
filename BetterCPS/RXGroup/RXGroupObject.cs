@@ -18,7 +18,7 @@ namespace BetterCPS.RXGroup
 
      */
 
-    class RXGroupObject
+    public class RXGroupObject
     {
         public const int offset = 0x0EE45;
         public const int Length = 96;

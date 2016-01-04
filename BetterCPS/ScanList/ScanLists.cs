@@ -8,7 +8,7 @@ using BetterCPS.Helper;
 
 namespace BetterCPS.ScanList
 {
-    class ScanLists
+    public class ScanLists
     {
         public const int OFFSET = 0x18A85;
         public const int DATA_WIDTH = 104; 
@@ -28,6 +28,7 @@ namespace BetterCPS.ScanList
         public void initDataTable()
         {
             allScanLists = new DataTable();
+            allScanLists.TableName = "BetterCPS.ScanLists";
             allScanLists.Columns.Add("GUID", typeof(String));
             allScanLists.Columns.Add("Name", typeof(String));
             allScanLists.Columns.Add("DATA", typeof(ScanListObject));
@@ -179,6 +180,14 @@ namespace BetterCPS.ScanList
                     AddScanList(oneScanList);
                 }
             }
+        }
+        public void SaveToXML(String path)
+        {
+            allScanLists.WriteXml(path);
+        }
+        public void ReadFromXML(String path)
+        {
+            allScanLists.ReadXml(path);
         }
     }
 }

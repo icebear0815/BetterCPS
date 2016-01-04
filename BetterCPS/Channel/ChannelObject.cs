@@ -9,7 +9,7 @@ using BetterCPS.Zone;
 
 namespace BetterCPS.Channel
 {
-    class ChannelObject
+    public class ChannelObject
     {
         /*
          * Define CONST

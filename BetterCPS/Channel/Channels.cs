@@ -10,7 +10,7 @@ using BetterCPS.Zone;
 
 namespace BetterCPS.Channel
 {
-    class Channels
+    public class Channels
     {
         public const int OFFSET = 0x1f025;
         public const int DATA_WIDTH = 64; 
@@ -29,6 +29,7 @@ namespace BetterCPS.Channel
         private void initDataTable()
         {
             allChannels = new DataTable();
+            allChannels.TableName = "BetterCPS.Channels";
             allChannels.Columns.Add("GUID", typeof(String));
             allChannels.Columns.Add("Name", typeof(String));
             allChannels.Columns.Add("DATA", typeof(ChannelObject));
@@ -182,6 +183,15 @@ namespace BetterCPS.Channel
                     AddChannel(oneChannel);
                 }
             }
+        }
+
+        public void SaveToXML(String path)
+        {
+            allChannels.WriteXml(path);
+        }
+        public void ReadFromXML(String path)
+        {
+            allChannels.ReadXml(path);
         }
     }
 }

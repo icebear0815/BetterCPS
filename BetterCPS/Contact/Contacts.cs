@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BetterCPS.Helper;
 
 namespace BetterCPS.Contact
 {
-    class Contacts
+    public class Contacts
     {
         public const int OFFSET = 0x061A5;
         public const int DATA_WIDTH = 36; 
@@ -25,6 +26,7 @@ namespace BetterCPS.Contact
         private void initDataTable()
         {
             allContacts = new DataTable();
+            allContacts.TableName = "BetterCPS.Contacts";
             allContacts.Columns.Add("GUID", typeof(String));
             allContacts.Columns.Add("Name", typeof(String));
             allContacts.Columns.Add("DATA", typeof(ContactEntry));
@@ -130,7 +132,12 @@ namespace BetterCPS.Contact
             return 0;
         }
 
+
         public String[] ToCSV()
+        {
+            return ToCSV(false);
+        }
+        public String[] ToCSV(bool withGUID)
         {
             int size = allContacts.Rows.Count + 1; //count + header line
             String[] allLines = new String[size];
@@ -144,9 +151,12 @@ namespace BetterCPS.Contact
             }
             return allLines;
         }
-        
 
-        public void FromCSV(String[] csvData, bool debug)
+        public void FromCSV(String[] csvData)
+        {
+            FromCSV(csvData, false);
+        }
+        public void FromCSV(String[] csvData, bool withGUID)
         {
             initDataTable();
             for (int i = 1; i < csvData.Length; i++) //skip line with index 0 - it's the header line
@@ -155,7 +165,7 @@ namespace BetterCPS.Contact
                 {
                     ContactEntry oneContact = new ContactEntry();
                     oneContact.SetDataFromCSV(csvData[i]);
-                    if (debug)
+                    if (Debug.GetInstance().DebugOn)
                     {
                         Console.WriteLine("In:  " + csvData[i]);
                         Console.WriteLine("Out: " + oneContact.ToString());
@@ -163,6 +173,14 @@ namespace BetterCPS.Contact
                     AddContact(oneContact);
                 }
             }
+        }
+        public void SaveToXML(String path)
+        {
+            allContacts.WriteXml(path);
+        }
+        public void ReadFromXML(String path)
+        {
+            allContacts.ReadXml(path);
         }
     }
 }

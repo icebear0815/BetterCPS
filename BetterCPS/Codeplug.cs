@@ -14,15 +14,21 @@ namespace BetterCPS
     class Codeplug
     {
         bool debug = false;
-
-        /*public bool Debug
-        {
-            get { return debug; }
-            set { debug = value; }
-        }*/
         byte[] rawData;
         Contacts allContacts;
 
+        public Codeplug()
+        {
+            initCodeplug();
+        }
+        private void initCodeplug()
+        {
+            allContacts = new Contacts();
+            allRXGroups = new RXGroups();
+            allScanLists = new ScanLists();
+            allZones = new Zones();
+            allChannels = new Channels();
+        }
         internal Contacts AllContacts
         {
             get { return allContacts; }
@@ -56,7 +62,10 @@ namespace BetterCPS
             get { return allChannels; }
             set { allChannels = value; }
         }
-
+        public void SetBaseRawData(byte[] data)
+        {
+            rawData = data;
+        }
         public byte[] RawData
         {
             get {
@@ -85,19 +94,15 @@ namespace BetterCPS
         
         private void setDataFromRaw(byte[] data)
         {
-            allContacts = new Contacts();
+            initCodeplug();
             allContacts.ContactsFromRawData(data, debug);
 
-            allRXGroups = new RXGroups();
             allRXGroups.RXGroupsFromRawData(data, debug);
 
-            allScanLists = new ScanLists();
             allScanLists.ScanListsFromRawData(data, debug);
 
-            allZones = new Zones();
             allZones.ZonesFromRawData(data, debug);
 
-            allChannels = new Channels();
             allChannels.ChannelsFromRawData(data, debug);
         }
     }

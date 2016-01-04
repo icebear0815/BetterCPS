@@ -6,7 +6,7 @@ using BetterCPS.Helper;
 
 namespace BetterCPS.Contact
 {
-    class ContactEntry
+    public class ContactEntry
     {
         /*
            Contacts (36 bytes per entry)
@@ -32,11 +32,11 @@ namespace BetterCPS.Contact
         public const int offset = 0x061A5;
         public const int Length = 36;
 
-        public const int _GUID = -1;
-        public const int _NAME = 0;
-        public const int _TYPE = 1;
-        public const int _CALLID = 2;
-        public const int _CALLRECEIVETONE = 3;
+        public const int _GUID = 0;
+        public const int _NAME = 1;
+        public const int _TYPE = 2;
+        public const int _CALLID = 3;
+        public const int _CALLRECEIVETONE = 4;
 
         byte[] rawData;
 
@@ -108,7 +108,7 @@ namespace BetterCPS.Contact
         public void SetDataFromCSV(String csvData)
         {
             String[] allFields = csvData.Split(';');
-            //guid = allFields[_GUID];
+            guid = allFields[_GUID];
             name.Value = allFields[_NAME];
             cType.FromString(allFields[_TYPE]);
             callId.FromString(allFields[_CALLID]);
@@ -118,8 +118,8 @@ namespace BetterCPS.Contact
        public String ToString()
         {
             StringBuilder sb = new StringBuilder();
-            //sb.Append(guid);
-            //sb.Append(";");
+            sb.Append(guid);
+            sb.Append(";");
             sb.Append(name);
             sb.Append(";");
             sb.Append(cType);

@@ -30,6 +30,10 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.createProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWorkingDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.openCodeplugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCodeplugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
@@ -53,7 +57,14 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.projectStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.openProjectFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveProjectFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.codeplugStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -71,6 +82,10 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createProjectToolStripMenuItem,
+            this.saveProjectToolStripMenuItem,
+            this.openWorkingDirectoryToolStripMenuItem,
+            this.toolStripMenuItem4,
             this.openCodeplugToolStripMenuItem,
             this.saveCodeplugToolStripMenuItem,
             this.toolStripMenuItem2,
@@ -82,24 +97,50 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuItem1.Text = "File";
             // 
+            // createProjectToolStripMenuItem
+            // 
+            this.createProjectToolStripMenuItem.Name = "createProjectToolStripMenuItem";
+            this.createProjectToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.createProjectToolStripMenuItem.Text = "Create Project";
+            this.createProjectToolStripMenuItem.Click += new System.EventHandler(this.createProjectToolStripMenuItem_Click);
+            // 
+            // saveProjectToolStripMenuItem
+            // 
+            this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saveProjectToolStripMenuItem.Text = "SaveProject";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
+            // 
+            // openWorkingDirectoryToolStripMenuItem
+            // 
+            this.openWorkingDirectoryToolStripMenuItem.Name = "openWorkingDirectoryToolStripMenuItem";
+            this.openWorkingDirectoryToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.openWorkingDirectoryToolStripMenuItem.Text = "Open Project";
+            this.openWorkingDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openWorkingDirectoryToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(191, 6);
+            // 
             // openCodeplugToolStripMenuItem
             // 
             this.openCodeplugToolStripMenuItem.Name = "openCodeplugToolStripMenuItem";
-            this.openCodeplugToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.openCodeplugToolStripMenuItem.Text = "Open Codeplug";
+            this.openCodeplugToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.openCodeplugToolStripMenuItem.Text = "Import from Codeplug";
             this.openCodeplugToolStripMenuItem.Click += new System.EventHandler(this.openCodeplug);
             // 
             // saveCodeplugToolStripMenuItem
             // 
             this.saveCodeplugToolStripMenuItem.Name = "saveCodeplugToolStripMenuItem";
-            this.saveCodeplugToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.saveCodeplugToolStripMenuItem.Text = "Save Codeplug";
+            this.saveCodeplugToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saveCodeplugToolStripMenuItem.Text = "Export to Codeplug";
             this.saveCodeplugToolStripMenuItem.Click += new System.EventHandler(this.saveCodeplugToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(155, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(191, 6);
             // 
             // exportToolStripMenuItem
             // 
@@ -109,7 +150,7 @@
             this.zonesToolStripMenuItem,
             this.scanListsToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // channelsToolStripMenuItem
@@ -148,7 +189,7 @@
             this.zonesToolStripMenuItem1,
             this.scanListsToolStripMenuItem1});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.importToolStripMenuItem.Text = "Import";
             // 
             // channelsToolStripMenuItem1
@@ -182,12 +223,12 @@
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(155, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(191, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exit);
             // 
@@ -225,14 +266,12 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "*.rdt";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "csv";
             this.saveFileDialog1.FileName = "*.csv";
             this.saveFileDialog1.Filter = "CSV-File|*.csv";
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // openFileDialog2
             // 
@@ -245,17 +284,61 @@
             this.saveFileDialog2.FileName = "*.rdt";
             this.saveFileDialog2.Filter = "Codeplug|*.rdt";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.projectStatusLabel,
+            this.codeplugStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 472);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(795, 24);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // projectStatusLabel
+            // 
+            this.projectStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.projectStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.projectStatusLabel.Name = "projectStatusLabel";
+            this.projectStatusLabel.Size = new System.Drawing.Size(627, 19);
+            this.projectStatusLabel.Spring = true;
+            this.projectStatusLabel.Text = "toolStripStatusLabel1";
+            this.projectStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // openProjectFileDialog
+            // 
+            this.openProjectFileDialog.FileName = "*.cps";
+            this.openProjectFileDialog.Filter = "CPS Project|*.cps";
+            // 
+            // saveProjectFileDialog
+            // 
+            this.saveProjectFileDialog.DefaultExt = "cps";
+            this.saveProjectFileDialog.FileName = "*.cps";
+            this.saveProjectFileDialog.Filter = "CPS Project|*.cps";
+            // 
+            // codeplugStatusLabel
+            // 
+            this.codeplugStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.codeplugStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.codeplugStatusLabel.Name = "codeplugStatusLabel";
+            this.codeplugStatusLabel.Size = new System.Drawing.Size(122, 19);
+            this.codeplugStatusLabel.Text = "toolStripStatusLabel1";
+            this.codeplugStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // CPSManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 496);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CPSManager";
             this.Text = "CPS-Manager";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,6 +371,16 @@
         private System.Windows.Forms.ToolStripMenuItem scanListsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel projectStatusLabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem openWorkingDirectoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openProjectFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveProjectFileDialog;
+        private System.Windows.Forms.ToolStripStatusLabel codeplugStatusLabel;
     }
 }
 

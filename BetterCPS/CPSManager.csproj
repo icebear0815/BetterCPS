@@ -80,6 +80,7 @@
     <Compile Include="DBAccess.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Helper\Tools.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="RXGroup\RXGroups.cs" />
     <Compile Include="ScanList\ChannelId.cs" />
     <Compile Include="ScanList\PriorityChannel.cs" />

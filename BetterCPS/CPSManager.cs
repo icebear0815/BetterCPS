@@ -11,18 +11,36 @@ using BetterCPS.Contact;
 using BetterCPS.ScanList;
 using BetterCPS.Zone;
 using BetterCPS.RXGroup;
+using BetterCPS.Helper;
 
 namespace BetterCPS
 {
     public partial class CPSManager : Form
     {
         Codeplug cp = null;
+        Codeplug importCP = null;
+
+        private const String XMLCHANNEL = "channel.xml";
+        private const String XMLCONTACT = "contact.xml";
+        private const String XMLSCANLIST = "scanlist.xml";
+        private const String XMLZONE = "zone.xml";
+
+        private const String CSVCHANNEL = "channel.csv";
+        private const String CSVCONTACT = "contact.csv";
+        private const String CSVSCANLIST = "scanlist.csv";
+        private const String CSVZONE = "zone.csv";
+
+        private String folderPath;
+        private Project project;
 
         public CPSManager()
         {
             Console.WriteLine("Version: "+typeof(CPSManager).Assembly.GetName().Version.ToString());
             //DBAccess.GetInstance();
             InitializeComponent();
+            codeplugStatusLabel.Alignment = ToolStripItemAlignment.Right;
+            projectStatusLabel.Text = "No active project";
+            codeplugStatusLabel.Text = "No codeplug imported";
             cp = new Codeplug();
         }
 
@@ -33,141 +51,122 @@ namespace BetterCPS
 
         private void openCodeplug(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (project != null)
             {
-                byte[] data = System.IO.File.ReadAllBytes(openFileDialog1.FileName);
-                cp.RawData = data;
-                Console.WriteLine("Read " + data.Length + " bytes. OK.");
-
-              
-                //String channelCSV = allChannels.toCSV(allContacts, allRXGroups, allScanLists, allZones);
-                //Console.WriteLine(channelCSV);
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    byte[] data = System.IO.File.ReadAllBytes(openFileDialog1.FileName);
+                    cp.RawData = data;
+                    project.CodeplugName = openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf("\\")+1);
+                    codeplugStatusLabel.Text = project.CodeplugName;
+                    Console.WriteLine("Read " + data.Length + " bytes. OK.");
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Please open project first!");
             }
             
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            /*if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                byte[] data = System.IO.File.ReadAllBytes(openFileDialog1.FileName);
-                
-                Console.WriteLine("Read "+data.Length+" bytes. OK.");
-            }*/
-        }
+        
 
         private void checkStateChanged(object sender, EventArgs e)
         {
             Debug.GetInstance().DebugOn = ((ToolStripMenuItem)sender).Checked;
         }
 
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
+        
 
-        }
-
-        private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (cp.AllChannels != null)
-            {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, false), Encoding.UTF8);
-                    //
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName+".SL_GUID", cp.AllScanLists.ToCSV(cp.AllChannels, true), Encoding.UTF8);
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName+".ZN_GUID", cp.AllZones.ToCSV(cp.AllChannels, true), Encoding.UTF8);
-                }
-            }
-            else
-            {
-                MessageBox.Show(this, "Kein Codeplug geöffnet!");
-            }
-        }
+        
 
         private void saveCodeplugToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Export codeplug
             if (MessageBox.Show(this, "You do this at your own risk!\nThe author of this software is not responsible for any damage to your hardware!") == DialogResult.OK)
             {
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
-                    System.IO.File.WriteAllBytes(saveFileDialog2.FileName, cp.RawData);
+                {
+                    byte[] rawData = System.IO.File.ReadAllBytes(saveFileDialog2.FileName);
+                    Array.Copy(cp.RawData, 0x061a5, rawData, 0x061a5, 0x2887f);
+                    System.IO.File.WriteAllBytes(saveFileDialog2.FileName, rawData);
+                }
             }
         }
 
         private void channelsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            //Import channels
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
-                String znPath = openFileDialog2.FileName + ".ZN_GUID";
-                if (!System.IO.File.Exists(znPath))
-                {
-                    MessageBox.Show("Can't find " + znPath + " ! Please select file location!");
-                    openFileDialog2.FileName = "*.ZN_GUID";
-                    if (openFileDialog2.ShowDialog() == DialogResult.OK)
-                    {
-                        znPath = openFileDialog2.FileName + ".ZN_GUID";
-                        openFileDialog2.FileName = "*.csv";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Operation canceld!");
-                        return;
-                    }
-                }
-                String slPath = openFileDialog2.FileName + ".SL_GUID";
-                if (!System.IO.File.Exists(slPath))
-                {
-                    MessageBox.Show("Can't find " + slPath + " ! Please select file location!");
-                    openFileDialog2.FileName = "*.SL_GUID";
-                    if (openFileDialog2.ShowDialog() == DialogResult.OK)
-                    {
-                        slPath = openFileDialog2.FileName + ".SL_GUID";
-                        openFileDialog2.FileName = "*.csv";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Operation canceld!");
-                        return;
-                    }
-                }
-
+                //Export scanlists
+                System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp1", cp.AllScanLists.ToCSV(cp.AllChannels), Encoding.UTF8);
+                //Export zones
+                System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp2", cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
+                //Import channels
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
                 cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, false);
                 //
-                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + ".ZN_GUID", Encoding.UTF8);
-                cp.AllZones.FromCSV(csvData, cp.AllChannels, true);
-                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + ".SL_GUID", Encoding.UTF8);
-                cp.AllScanLists.FromCSV(csvData, cp.AllChannels, true);
-                
+                //Re-import zones and scanlist -> references may be updated
+                //import scanLists
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp1", Encoding.UTF8);
+                cp.AllScanLists.FromCSV(csvData, cp.AllChannels, false);
+                //import zones
+                csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp2", Encoding.UTF8);
+                cp.AllZones.FromCSV(csvData, cp.AllChannels, false);
+                //
+                //Delete tmp files
+                System.IO.File.Delete(openFileDialog2.FileName + "~tmp1");
+                System.IO.File.Delete(openFileDialog2.FileName + "~tmp2");
+            }
+        }
+
+        private void channelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Export channels
+            if (project != null)
+            {
+                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                {
+                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, false), Encoding.UTF8);
+                    //
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, "Please open project first!");
             }
         }
 
         private void zonesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (cp.AllZones != null)
+            //Export zones
+            if (project != null)
             {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (openFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
                 }
             }
             else
             {
-                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+                MessageBox.Show(this, "Please open project first!");
             }
         }
 
         private void scanListsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (cp.AllScanLists != null)
+            //Export scanLists
+            if (project != null)
             {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (openFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllScanLists.ToCSV(cp.AllChannels), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllScanLists.ToCSV(cp.AllChannels), Encoding.UTF8);
                 }
             }
             else
             {
-                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+                MessageBox.Show(this, "Please open project first!");
             }
         }
 
@@ -175,16 +174,17 @@ namespace BetterCPS
 
         private void contactsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (cp.AllContacts != null)
+            //Export contacts
+            if (project != null)
             {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (openFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllContacts.ToCSV(), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllContacts.ToCSV(), Encoding.UTF8);
                 }
             }
             else
             {
-                MessageBox.Show(this, "Kein Codeplug geöffnet!");
+                MessageBox.Show(this, "Please open project first!");
             }
         }
 
@@ -193,13 +193,16 @@ namespace BetterCPS
             //import contacts
             if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
-                System.IO.File.WriteAllLines(openFileDialog2.FileName+"~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones), Encoding.UTF8);
+                //export channels
+                System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, true), Encoding.UTF8);
+                //import contacts
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
                 cp.AllContacts.FromCSV(csvData, Debug.GetInstance().DebugOn);
-                //
+                //re-import channels -> may be refernces will be updated
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
-                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, Debug.GetInstance().DebugOn);
+                cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, true);
                 System.IO.File.Delete(openFileDialog2.FileName + "~tmp");
+                
             }
         }
 
@@ -250,6 +253,79 @@ namespace BetterCPS
                             +"\n     Copyright by Lars Schindler"
                             +"\n                   - DH6OBN -");
         }
+
+        private void openWorkingDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openProjectFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                project = Project.ImportFromXML(openProjectFileDialog.FileName);
+                projectStatusLabel.Text = project.ProjectPath;
+                codeplugStatusLabel.Text = project.CodeplugName;
+                importXMLData();
+            }
+            
+        }
+        private void exportXMLData()
+        {
+            cp.AllChannels.SaveToXML(project.ChannelPath);
+            cp.AllContacts.SaveToXML(project.ContactPath);
+            cp.AllScanLists.SaveToXML(project.ScanListPath);
+            cp.AllZones.SaveToXML(project.ZonePath);
+        }
+        private void importXMLData()
+        {
+            cp.AllChannels.ReadFromXML(project.ChannelPath);
+            cp.AllContacts.ReadFromXML(project.ContactPath);
+            cp.AllScanLists.ReadFromXML(project.ScanListPath);
+            cp.AllZones.ReadFromXML(project.ZonePath);
+        }
+        /*private void importFromCodeplugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Tools.IsEmpty(folderPath))
+            {
+                if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    folderPath = folderBrowserDialog1.SelectedPath + "\\";
+                    projectStatusLabel.Text = folderPath;
+                }
+            }
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                byte[] data = System.IO.File.ReadAllBytes(openFileDialog1.FileName);
+                cp.RawData = data;
+                Console.WriteLine("Read " + data.Length + " bytes. OK.");
+            }
+            exportXMLData();
+        }*/
+
+        private void createProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveProjectFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                cp = new Codeplug();
+                project = new Project();
+                project.ProjectPath = saveProjectFileDialog.FileName;
+                projectStatusLabel.Text = project.ProjectPath;
+                String basePath = project.ProjectPath.Substring(0,project.ProjectPath.LastIndexOf("."));
+                project.ChannelPath = basePath + XMLCHANNEL;
+                project.ScanListPath = basePath + XMLSCANLIST;
+                project.ZonePath = basePath + XMLZONE;
+                project.ContactPath = basePath + XMLCONTACT;
+                project.ExportToXML(project.ProjectPath);
+                exportXMLData();
+
+            }
+            
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            exportXMLData();
+            project.ExportToXML(project.ProjectPath);
+        }
+
+        
 
         
     }

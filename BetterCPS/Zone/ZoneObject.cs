@@ -18,7 +18,7 @@ namespace BetterCPS.Zone
         34-63   Index Numbers of remaining channels (up to 16 entries 2 bytes per entry)
      */
 
-    class ZoneObject
+    public class ZoneObject
     {
         public const int offset = 0x14C05;
         public const int Length = 64;

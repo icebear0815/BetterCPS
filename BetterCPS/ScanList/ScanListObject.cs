@@ -23,7 +23,7 @@ namespace BetterCPS.ScanList
             42-103	 Index numbers of remaining channels (up to 31 Entries 2 bytes per channel)
      */
 
-    class ScanListObject
+    public class ScanListObject
     {
         public const int offset = 0x18A85;
         public const int Length = 104;

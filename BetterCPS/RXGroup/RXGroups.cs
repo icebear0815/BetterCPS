@@ -6,7 +6,7 @@ using System.Data;
 
 namespace BetterCPS.RXGroup
 {
-    class RXGroups
+    public class RXGroups
     {
         public const int OFFSET = 0x0EE45;
         public const int DATA_WIDTH = 96; 
@@ -21,6 +21,7 @@ namespace BetterCPS.RXGroup
         public RXGroups()
         {
             allRXGroups = new DataTable();
+            allRXGroups.TableName = "BetterCPS.RXGroups";
             allRXGroups.Columns.Add("GUID", typeof(String));
             allRXGroups.Columns.Add("Name", typeof(String));
             allRXGroups.Columns.Add("DATA", typeof(RXGroupObject));
@@ -118,5 +119,13 @@ namespace BetterCPS.RXGroup
             return -1;
         }
 
+        public void SaveToXML(String path)
+        {
+            allRXGroups.WriteXml(path);
+        }
+        public void ReadFromXML(String path)
+        {
+            allRXGroups.ReadXml(path);
+        }
     }
 }

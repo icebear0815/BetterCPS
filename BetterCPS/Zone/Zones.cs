@@ -8,7 +8,7 @@ using BetterCPS.Helper;
 
 namespace BetterCPS.Zone
 {
-    class Zones
+    public class Zones
     {
         public const int OFFSET = 0x14C05;
         public const int DATA_WIDTH = 64; 
@@ -28,6 +28,7 @@ namespace BetterCPS.Zone
         private void initDataTable()
         {
             allZones = new DataTable();
+            allZones.TableName = "BetterCPS.Zones";
             allZones.Columns.Add("GUID", typeof(String));
             allZones.Columns.Add("Name", typeof(String));
             allZones.Columns.Add("DATA", typeof(ZoneObject));
@@ -172,6 +173,14 @@ namespace BetterCPS.Zone
         public void FromCSV(String[] csvData, Channels allChannels)
         {
             FromCSV(csvData, allChannels, false);
+        }
+        public void SaveToXML(String path)
+        {
+            allZones.WriteXml(path);
+        }
+        public void ReadFromXML(String path)
+        {
+            allZones.ReadXml(path);
         }
     }
 }
