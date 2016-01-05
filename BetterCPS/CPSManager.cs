@@ -18,19 +18,18 @@ namespace BetterCPS
     public partial class CPSManager : Form
     {
         Codeplug cp = null;
-        Codeplug importCP = null;
 
         private const String XMLCHANNEL = "channel.xml";
         private const String XMLCONTACT = "contact.xml";
         private const String XMLSCANLIST = "scanlist.xml";
         private const String XMLZONE = "zone.xml";
+        private const String XMLRXGROUP = "rxgroup.xml";
 
         private const String CSVCHANNEL = "channel.csv";
         private const String CSVCONTACT = "contact.csv";
         private const String CSVSCANLIST = "scanlist.csv";
         private const String CSVZONE = "zone.csv";
 
-        private String folderPath;
         private Project project;
 
         public CPSManager()
@@ -57,6 +56,7 @@ namespace BetterCPS
                 {
                     byte[] data = System.IO.File.ReadAllBytes(openFileDialog1.FileName);
                     cp.RawData = data;
+                    project.CodeplugRawData = data;
                     project.CodeplugName = openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf("\\")+1);
                     codeplugStatusLabel.Text = project.CodeplugName;
                     Console.WriteLine("Read " + data.Length + " bytes. OK.");
@@ -87,7 +87,10 @@ namespace BetterCPS
             {
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    byte[] rawData = System.IO.File.ReadAllBytes(saveFileDialog2.FileName);
+                    byte[] rawData = null;
+                    if (System.IO.File.Exists(saveFileDialog2.FileName))
+                        rawData = System.IO.File.ReadAllBytes(saveFileDialog2.FileName);
+                    else rawData = project.CodeplugRawData;
                     Array.Copy(cp.RawData, 0x061a5, rawData, 0x061a5, 0x2887f);
                     System.IO.File.WriteAllBytes(saveFileDialog2.FileName, rawData);
                 }
@@ -126,9 +129,9 @@ namespace BetterCPS
             //Export channels
             if (project != null)
             {
-                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, false), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, false), Encoding.UTF8);
                     //
                 }
             }
@@ -143,9 +146,9 @@ namespace BetterCPS
             //Export zones
             if (project != null)
             {
-                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllZones.ToCSV(cp.AllChannels), Encoding.UTF8);
                 }
             }
             else
@@ -159,9 +162,9 @@ namespace BetterCPS
             //Export scanLists
             if (project != null)
             {
-                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllScanLists.ToCSV(cp.AllChannels), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllScanLists.ToCSV(cp.AllChannels), Encoding.UTF8);
                 }
             }
             else
@@ -177,9 +180,9 @@ namespace BetterCPS
             //Export contacts
             if (project != null)
             {
-                if (openFileDialog2.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    System.IO.File.WriteAllLines(openFileDialog2.FileName, cp.AllContacts.ToCSV(), Encoding.UTF8);
+                    System.IO.File.WriteAllLines(saveFileDialog1.FileName, cp.AllContacts.ToCSV(), Encoding.UTF8);
                 }
             }
             else
@@ -197,7 +200,7 @@ namespace BetterCPS
                 System.IO.File.WriteAllLines(openFileDialog2.FileName + "~tmp", cp.AllChannels.ToCSV(cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, true), Encoding.UTF8);
                 //import contacts
                 String[] csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName, Encoding.UTF8);
-                cp.AllContacts.FromCSV(csvData, Debug.GetInstance().DebugOn);
+                cp.AllContacts.FromCSV(csvData, false);
                 //re-import channels -> may be refernces will be updated
                 csvData = System.IO.File.ReadAllLines(openFileDialog2.FileName + "~tmp", Encoding.UTF8);
                 cp.AllChannels.FromCSV(csvData, cp.AllContacts, cp.AllRXGroups, cp.AllScanLists, cp.AllZones, true);
@@ -261,6 +264,7 @@ namespace BetterCPS
                 project = Project.ImportFromXML(openProjectFileDialog.FileName);
                 projectStatusLabel.Text = project.ProjectPath;
                 codeplugStatusLabel.Text = project.CodeplugName;
+                cp.SetBaseRawData(project.CodeplugRawData);
                 importXMLData();
             }
             
@@ -271,6 +275,7 @@ namespace BetterCPS
             cp.AllContacts.SaveToXML(project.ContactPath);
             cp.AllScanLists.SaveToXML(project.ScanListPath);
             cp.AllZones.SaveToXML(project.ZonePath);
+            cp.AllRXGroups.SaveToXML(project.RxGroupPath);
         }
         private void importXMLData()
         {
@@ -278,6 +283,7 @@ namespace BetterCPS
             cp.AllContacts.ReadFromXML(project.ContactPath);
             cp.AllScanLists.ReadFromXML(project.ScanListPath);
             cp.AllZones.ReadFromXML(project.ZonePath);
+            cp.AllRXGroups.ReadFromXML(project.RxGroupPath);
         }
         /*private void importFromCodeplugToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -312,6 +318,7 @@ namespace BetterCPS
                 project.ScanListPath = basePath + XMLSCANLIST;
                 project.ZonePath = basePath + XMLZONE;
                 project.ContactPath = basePath + XMLCONTACT;
+                project.RxGroupPath = basePath + XMLRXGROUP;
                 project.ExportToXML(project.ProjectPath);
                 exportXMLData();
 
@@ -323,6 +330,11 @@ namespace BetterCPS
         {
             exportXMLData();
             project.ExportToXML(project.ProjectPath);
+        }
+
+        private void saveFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
+
         }
 
         

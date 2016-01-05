@@ -56,6 +56,15 @@ namespace BetterCPS
             get { return codeplugName; }
             set { codeplugName = value; }
         }
+
+        private byte[] codeplugRawData;
+
+        public byte[] CodeplugRawData
+        {
+            get { return codeplugRawData; }
+            set { codeplugRawData = value; }
+        }
+        
         public Project()
         {
             //codeplugName = "No codeplug imported";

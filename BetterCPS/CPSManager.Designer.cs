@@ -60,9 +60,9 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.projectStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.codeplugStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.openProjectFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveProjectFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.codeplugStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -283,6 +283,7 @@
             // 
             this.saveFileDialog2.FileName = "*.rdt";
             this.saveFileDialog2.Filter = "Codeplug|*.rdt";
+            this.saveFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog2_FileOk);
             // 
             // statusStrip1
             // 
@@ -300,10 +301,19 @@
             this.projectStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
             this.projectStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.projectStatusLabel.Name = "projectStatusLabel";
-            this.projectStatusLabel.Size = new System.Drawing.Size(627, 19);
+            this.projectStatusLabel.Size = new System.Drawing.Size(658, 19);
             this.projectStatusLabel.Spring = true;
             this.projectStatusLabel.Text = "toolStripStatusLabel1";
             this.projectStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // codeplugStatusLabel
+            // 
+            this.codeplugStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.codeplugStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.codeplugStatusLabel.Name = "codeplugStatusLabel";
+            this.codeplugStatusLabel.Size = new System.Drawing.Size(122, 19);
+            this.codeplugStatusLabel.Text = "toolStripStatusLabel1";
+            this.codeplugStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // openProjectFileDialog
             // 
@@ -315,15 +325,6 @@
             this.saveProjectFileDialog.DefaultExt = "cps";
             this.saveProjectFileDialog.FileName = "*.cps";
             this.saveProjectFileDialog.Filter = "CPS Project|*.cps";
-            // 
-            // codeplugStatusLabel
-            // 
-            this.codeplugStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
-            this.codeplugStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this.codeplugStatusLabel.Name = "codeplugStatusLabel";
-            this.codeplugStatusLabel.Size = new System.Drawing.Size(122, 19);
-            this.codeplugStatusLabel.Text = "toolStripStatusLabel1";
-            this.codeplugStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CPSManager
             // 
